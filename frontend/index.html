@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CollegeFinder - 大陆高校台湾学测招生信息汇总</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status-success { background-color: #d4edda; }
+        .status-failed { background-color: #f8d7da; }
+        .status-pending { background-color: #fff3cd; }
+        .status-not_found { background-color: #e2e3e5; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">CollegeFinder</h1>
+            <p class="text-gray-600 mt-2">大陆高校2026年台湾学测招生信息自动汇总工具</p>
+            <p class="text-xs text-gray-400 mt-1">UI版本: 2026-02-26-4</p>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">控制面板</h2>
+            <div class="flex flex-wrap gap-4 items-center">
+                <button id="btn-refresh-schools" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    刷新学校列表
+                </button>
+                <button id="btn-sync-labels" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                    联网同步标签
+                </button>
+                <button id="btn-start-all" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                    开始全部提取
+                </button>
+                <button id="btn-start-selected" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded">
+                    提取选中学校
+                </button>
+                <button id="btn-stop" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" disabled>
+                    停止任务
+                </button>
+                <button id="btn-export" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
+                    导出结果
+                </button>
+                <a href="/summary" target="_blank" rel="noopener noreferrer" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded">
+                    汇总/检索
+                </a>
+                <button id="btn-retry-failed" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+                    重跑失败/未找到
+                </button>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="chk-force-refresh" class="w-4 h-4">
+                    <span class="text-sm">强制刷新已有结果</span>
+                </label>
+            </div>
+
+            <!-- Progress -->
+            <div id="progress-section" class="mt-4 hidden">
+                <div class="flex items-center gap-3">
+                    <div class="loader"></div>
+                    <span id="progress-text">处理中...</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">
+                    <span>完成: <span id="stat-completed" class="text-green-600 font-semibold">0</span></span>
+                    <span class="ml-4">失败: <span id="stat-failed" class="text-red-600 font-semibold">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">筛选条件</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">地区</label>
+                    <select id="filter-area" class="w-full border rounded px-3 py-2">
+                        <option value="">全部地区</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">学校类别</label>
+                    <select id="filter-type" class="w-full border rounded px-3 py-2">
+                        <option value="">全部类别</option>
+                        <option value="985">985</option>
+                        <option value="211">211（非985）</option>
+                        <option value="双一流">双一流（非985/211）</option>
+                        <option value="非双一流">非双一流</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">台湾承认</label>
+                    <select id="filter-taiwan" class="w-full border rounded px-3 py-2">
+                        <option value="">全部</option>
+                        <option value="yes">仅台湾承认</option>
+                        <option value="no">未承认</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">处理状态</label>
+                    <select id="filter-status" class="w-full border rounded px-3 py-2">
+                        <option value="">全部状态</option>
+                        <option value="success">已提取</option>
+                        <option value="pending">待处理</option>
+                        <option value="failed">提取失败</option>
+                        <option value="not_found">未找到信息</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">搜索</label>
+                    <input type="text" id="filter-search" class="w-full border rounded px-3 py-2" placeholder="学校名称...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- School List -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-4 border-b flex justify-between items-center">
+                    <h2 class="text-xl font-semibold">学校列表 (<span id="school-count">0</span>)</h2>
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="checkbox" id="chk-select-all" class="w-4 h-4">
+                        <span>全选</span>
+                    </label>
+                </div>
+                 <div id="school-list" class="h-[600px] overflow-y-auto overscroll-contain">
+                     <div class="p-4 text-gray-500 text-center">点击"刷新学校列表"加载数据</div>
+                 </div>
+            </div>
+
+            <!-- Result Detail -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-4 border-b">
+                    <h2 class="text-xl font-semibold">详细信息</h2>
+                </div>
+                 <div id="result-detail" class="p-4 h-[600px] overflow-y-auto overscroll-contain">
+                     <div class="text-gray-500 text-center">选择学校查看详情</div>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="bg-white rounded-lg shadow mt-6">
+            <div class="p-4 border-b">
+                <h2 class="text-xl font-semibold">提取结果汇总</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">学校</th>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">地区</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">类别</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">适用类别</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">国文</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">英文</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">数学A</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">数学B</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">社会</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">自然</th>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">其他条件</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">截止日期</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">信心度</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <tr><td colspan="13" class="px-4 py-8 text-center text-gray-500">暂无数据</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=20260226-4"></script>
+</body>
+</html>

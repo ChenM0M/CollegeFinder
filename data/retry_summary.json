@@ -1,0 +1,411 @@
+{
+  "timestamp": "2026-02-26T20:04:32.901417",
+  "status": {
+    "success": 342,
+    "not_found": 108,
+    "failed": 0
+  },
+  "not_found_samples": [
+    {
+      "name": "宁波诺丁汉大学",
+      "source_url": "https://www.nottingham.edu.cn/en/global/documents/unnc-2026-%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%8B%9B%E7%94%9F%E6%89%8B%E5%86%8C-%E7%BA%BF%E4%B8%8A%E7%89%88.pdf",
+      "raw_text_length": 94794
+    },
+    {
+      "name": "北京舞蹈学院",
+      "source_url": "https://www.bda.edu.cn/zsjy/bkzsxx/index.htm",
+      "raw_text_length": 89554
+    },
+    {
+      "name": "广东财经大学",
+      "source_url": "https://zsb.gdufe.edu.cn/main.htm",
+      "raw_text_length": 60505
+    },
+    {
+      "name": "中国音乐学院",
+      "source_url": "https://bkzs.ccmusic.edu.cn/",
+      "raw_text_length": 39293
+    },
+    {
+      "name": "天津医科大学",
+      "source_url": "https://www.tmu.edu.cn/bkzs/",
+      "raw_text_length": 29632
+    },
+    {
+      "name": "上海戏剧学院",
+      "source_url": "https://zs.sta.edu.cn/",
+      "raw_text_length": 28760
+    },
+    {
+      "name": "哈尔滨工业大学",
+      "source_url": "https://zsb.hit.edu.cn/",
+      "raw_text_length": 27935
+    },
+    {
+      "name": "湖南工业大学",
+      "source_url": "https://www.hunan.gov.cn/jxxx/hngk/hngk.html",
+      "raw_text_length": 20367
+    },
+    {
+      "name": "山东艺术学院",
+      "source_url": "https://zsbgs.sdca.edu.cn/",
+      "raw_text_length": 19243
+    },
+    {
+      "name": "西北师范大学",
+      "source_url": "https://www.hndfcrane.com/posts/how-to-calculate-deflection-of-overhead-crane/",
+      "raw_text_length": 18138
+    },
+    {
+      "name": "广州城市理工学院",
+      "source_url": "https://zs.gcut.edu.cn/gatzssy/list.htm",
+      "raw_text_length": 14663
+    },
+    {
+      "name": "西南大学",
+      "source_url": "http://bkzsw.swu.edu.cn/",
+      "raw_text_length": 11504
+    },
+    {
+      "name": "电子科技大学",
+      "source_url": "https://bbs.elecfans.com/",
+      "raw_text_length": 10433
+    },
+    {
+      "name": "西安外国语大学",
+      "source_url": "http://zhaosheng.xisu.edu.cn/",
+      "raw_text_length": 9003
+    },
+    {
+      "name": "内蒙古艺术学院",
+      "source_url": "https://zs.imac.edu.cn/",
+      "raw_text_length": 8901
+    },
+    {
+      "name": "安徽医科大学",
+      "source_url": "https://zs.ahmu.edu.cn/2025/1212/c8417a195065/page.htm",
+      "raw_text_length": 6707
+    },
+    {
+      "name": "大连海事大学",
+      "source_url": "https://bkzs.dlmu.edu.cn/",
+      "raw_text_length": 6002
+    },
+    {
+      "name": "中央戏剧学院",
+      "source_url": "http://chntheatre.edu.cn/cn/admission#admission4",
+      "raw_text_length": 5543
+    },
+    {
+      "name": "枣庄学院",
+      "source_url": "https://ice.uzz.edu.cn/info/1079/1424.htm",
+      "raw_text_length": 4660
+    },
+    {
+      "name": "天津工业大学",
+      "source_url": "https://io.tiangong.edu.cn/",
+      "raw_text_length": 4428
+    },
+    {
+      "name": "外交学院",
+      "source_url": "https://zs.cfau.edu.cn/",
+      "raw_text_length": 4424
+    },
+    {
+      "name": "北京语言大学",
+      "source_url": "https://zsb.blcu.edu.cn/zszn/zszc1.htm",
+      "raw_text_length": 2645
+    },
+    {
+      "name": "山东外事职业大学",
+      "source_url": "https://zsb.sdws.edu.cn/2025/1209/c410a85994/page.htm",
+      "raw_text_length": 2356
+    },
+    {
+      "name": "南方医科大学",
+      "source_url": "https://portal.smu.edu.cn/bkzs/info/1022/4254.htm",
+      "raw_text_length": 2210
+    },
+    {
+      "name": "佛山大学",
+      "source_url": "https://www.foshan.gov.cn/",
+      "raw_text_length": 2139
+    },
+    {
+      "name": "湖南中医药大学",
+      "source_url": "https://gjjy.hnucm.edu.cn/info/1080/2583.htm",
+      "raw_text_length": 2002
+    },
+    {
+      "name": "广州华立学院",
+      "source_url": "https://www.hualixy.edu.cn/zsb",
+      "raw_text_length": 1227
+    },
+    {
+      "name": "西北工业大学",
+      "source_url": "https://news.ycwb.com/ikimvkitin/content_53978368.htm",
+      "raw_text_length": 1057
+    },
+    {
+      "name": "中央音乐学院",
+      "source_url": "https://zhaoban.ccom.edu.cn/",
+      "raw_text_length": 957
+    },
+    {
+      "name": "云南民族大学",
+      "source_url": "https://web.ymu.edu.cn/zsjyc/info/1311/2671.htm",
+      "raw_text_length": 893
+    },
+    {
+      "name": "南京师范大学",
+      "source_url": "http://gjc.njnu.edu.cn/",
+      "raw_text_length": 679
+    },
+    {
+      "name": "河北科技大学",
+      "source_url": "https://bkzs.hebust.edu.cn/",
+      "raw_text_length": 673
+    },
+    {
+      "name": "同济大学",
+      "source_url": "https://bkzs.tongji.edu.cn/examination/constitutionDetail?id=693a7619db8b350001a3cf57&keyword=%E6%B8%AF%E6%BE%B3%E5%8F%B0%E4%BE%A8&articleType=%E6%B8%AF%E6%BE%B3%E5%8F%B0%E4%BE%A8",
+      "raw_text_length": 462
+    },
+    {
+      "name": "常州大学",
+      "source_url": "https://gjjl.cczu.edu.cn/2025/1208/c22694a406609/page.psp",
+      "raw_text_length": 234
+    },
+    {
+      "name": "哈尔滨医科大学",
+      "source_url": "https://www.hrbmu.edu.cn/zhaosheng/info/1142/2685.htm",
+      "raw_text_length": 148
+    },
+    {
+      "name": "华侨大学",
+      "source_url": "https://zsc.hqu.edu.cn/info/1079/8732.htm",
+      "raw_text_length": 142
+    },
+    {
+      "name": "上海中医药大学",
+      "source_url": "https://ygzs.shutcm.edu.cn/#/detail?type=3&id=709",
+      "raw_text_length": 116
+    },
+    {
+      "name": "北京第二外国语学院",
+      "source_url": "https://www.bisu.edu.cn/#/personTrain?id=2&detail=0",
+      "raw_text_length": 111
+    },
+    {
+      "name": "成都体育学院",
+      "source_url": "https://wsb.cdsu.edu.cn/ggtz.htm",
+      "raw_text_length": 76
+    },
+    {
+      "name": "温州大学",
+      "source_url": "https://zs.wzu.edu.cn/info/1146/9704.htm",
+      "raw_text_length": 74
+    },
+    {
+      "name": "四川师范大学",
+      "source_url": "https://zs.sicnu.edu.cn/DocViewPage.aspx?Id=162504",
+      "raw_text_length": 64
+    },
+    {
+      "name": "北京建筑大学",
+      "source_url": "https://idri.bucea.edu.cn/gatsw/gatxs/ff01eae8859e4281a95752096ebed24e.htm",
+      "raw_text_length": 46
+    },
+    {
+      "name": "北京大学",
+      "source_url": "https://bkzs.pku.edu.cn/tzgg/4bb10c553ce44f05948e653304ef387b.htm",
+      "raw_text_length": 40
+    },
+    {
+      "name": "三峡大学",
+      "source_url": "https://dir.ctgu.edu.cn/content.jsp?urltype=news.NewsContentUrl&wbtreeid=1145&wbnewsid=4714",
+      "raw_text_length": 39
+    },
+    {
+      "name": "东莞城市学院",
+      "source_url": "https://global.dgcu.edu.cn/newsshow.php?id=715",
+      "raw_text_length": 33
+    },
+    {
+      "name": "大连医科大学",
+      "source_url": "https://recruit.dmu.edu.cn/info/1017/1932.htm",
+      "raw_text_length": 28
+    },
+    {
+      "name": "哈尔滨商业大学",
+      "source_url": "https://zsb.hrbcu.edu.cn/info/1121/4365.htm",
+      "raw_text_length": 27
+    },
+    {
+      "name": "广东技术师范大学",
+      "source_url": "https://bkzs.gpnu.edu.cn/recruit?parentId=2&menuId=11",
+      "raw_text_length": 25
+    },
+    {
+      "name": "华东交通大学",
+      "source_url": "https://gjc.ecjtu.edu.cn/info/1051/3538.htm",
+      "raw_text_length": 24
+    },
+    {
+      "name": "中央财经大学",
+      "source_url": "https://zs.cufe.edu.cn/",
+      "raw_text_length": 22
+    },
+    {
+      "name": "香港科技大学（广州）",
+      "source_url": "https://ugadmissions.hkust-gz.edu.cn/zh-CN/article/AdmissionPolicies/?zbid=11&student_type=HongKongMacaoTaiwan",
+      "raw_text_length": 20
+    },
+    {
+      "name": "福建师范大学",
+      "source_url": "https://iccs.fjnu.edu.cn/97/e6/c6602a432102/page.htm",
+      "raw_text_length": 18
+    },
+    {
+      "name": "中国劳动关系学院",
+      "source_url": "https://www.culr.edu.cn/zsjy/gatqzs/index.htm",
+      "raw_text_length": 17
+    },
+    {
+      "name": "大连理工大学",
+      "source_url": "https://zs.dlut.edu.cn/recruitmentGuideDetail?guideId=1998568861053489153",
+      "raw_text_length": 15
+    },
+    {
+      "name": "南方科技大学",
+      "source_url": "https://zs.sustech.edu.cn/#/detail/?alias=d8a68c7f-ac2c-4e33-979d-bf59141b73c4",
+      "raw_text_length": 14
+    },
+    {
+      "name": "天津师范大学",
+      "source_url": "https://gjjl.tjnu.edu.cn/gat/zsxx.htm",
+      "raw_text_length": 13
+    },
+    {
+      "name": "北京师范大学",
+      "source_url": "https://admission.bnu.edu.cn/tslx/gatzs/index.html",
+      "raw_text_length": 12
+    },
+    {
+      "name": "北京师范大学(珠海校区)",
+      "source_url": "https://admission.bnu.edu.cn/tslx/gatzs/index.html",
+      "raw_text_length": 12
+    },
+    {
+      "name": "广州软件学院",
+      "source_url": "https://zs.seig.edu.cn/recruit/detail/news?article_id=20833&menu_id=246&sidebar_index=0",
+      "raw_text_length": 11
+    },
+    {
+      "name": "西南科技大学",
+      "source_url": "https://zs.swust.edu.cn/#/zsxx/%E6%8B%9B%E7%94%9F%E6%94%BF%E7%AD%96/81a0e788542e40bfa0dcbc83faba230e",
+      "raw_text_length": 11
+    },
+    {
+      "name": "厦门大学嘉庚学院",
+      "source_url": "https://ec.xujc.com/2025/1218/c801a164026/page.htm",
+      "raw_text_length": 9
+    },
+    {
+      "name": "中国政法大学",
+      "source_url": "https://sis.cupl.edu.cn/info/1031/3302.htm",
+      "raw_text_length": 6
+    },
+    {
+      "name": "西安交通大学",
+      "source_url": "http://zs.xjtu.edu.cn/info/1669/6840.htm",
+      "raw_text_length": 6
+    },
+    {
+      "name": "北京化工大学",
+      "source_url": "https://goto.buct.edu.cn/static/front/buct/basic/html_cms/frontList.html?id=6ebab28e72ba46da99a0f2c372b129d7",
+      "raw_text_length": 4
+    },
+    {
+      "name": "西湖大学",
+      "source_url": "https://zh-ugadmissions.westlake.edu.cn/Admissions/GATQ/",
+      "raw_text_length": 4
+    },
+    {
+      "name": "浙江传媒学院",
+      "source_url": "https://zsw.cuz.edu.cn/static/front/cuz/basic/html_cms/frontList.html?id=659f7654c74c47c484074dcc00c21de9",
+      "raw_text_length": 4
+    },
+    {
+      "name": "吉首大学",
+      "source_url": "https://zs.jsu.edu.cn/module/news_info.html?article_id=15386",
+      "raw_text_length": 4
+    },
+    {
+      "name": "中央美术学院",
+      "source_url": "",
+      "raw_text_length": 0
+    },
+    {
+      "name": "北京邮电大学",
+      "source_url": "https://www.bing.com/search?q=%E5%8C%97%E4%BA%AC%E9%82%AE%E7%94%B5%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "北京电影学院",
+      "source_url": "https://www.bing.com/search?q=%E5%8C%97%E4%BA%AC%E7%94%B5%E5%BD%B1%E5%AD%A6%E9%99%A2+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "南开大学",
+      "source_url": "https://www.bing.com/search?q=%E5%8D%97%E5%BC%80%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "河北大学",
+      "source_url": "https://www.bing.com/search?q=%E6%B2%B3%E5%8C%97%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "沈阳大学",
+      "source_url": "https://www.bing.com/search?q=%E6%B2%88%E9%98%B3%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "中国医科大学",
+      "source_url": "https://www.bing.com/search?q=%E4%B8%AD%E5%9B%BD%E5%8C%BB%E7%A7%91%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "上海杉达学院",
+      "source_url": "https://www.bing.com/search?q=%E4%B8%8A%E6%B5%B7%E6%9D%89%E8%BE%BE%E5%AD%A6%E9%99%A2+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "扬州大学",
+      "source_url": "https://www.bing.com/search?q=%E6%89%AC%E5%B7%9E%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "金陵科技学院",
+      "source_url": "https://www.bing.com/search?q=%E9%87%91%E9%99%B5%E7%A7%91%E6%8A%80%E5%AD%A6%E9%99%A2+2026%E5%B9%B4%E6%8B%9B%E6%94%B6%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E9%AB%98%E4%B8%AD%E6%AF%95%E4%B8%9A%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "南京审计大学",
+      "source_url": "https://www.bing.com/search?q=%E5%8D%97%E4%BA%AC%E5%AE%A1%E8%AE%A1%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "中国矿业大学",
+      "source_url": "https://www.bing.com/search?q=%E4%B8%AD%E5%9B%BD%E7%9F%BF%E4%B8%9A%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    },
+    {
+      "name": "南京工业大学",
+      "source_url": "https://www.bing.com/search?q=%E5%8D%97%E4%BA%AC%E5%B7%A5%E4%B8%9A%E5%A4%A7%E5%AD%A6+2026+%E4%BE%9D%E6%8D%AE%E5%8F%B0%E6%B9%BE%E5%9C%B0%E5%8C%BA%E5%A4%A7%E5%AD%A6%E5%85%A5%E5%AD%A6%E8%80%83%E8%AF%95+%E5%AD%A6%E7%A7%91%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95+%E6%88%90%E7%BB%A9+%E6%8B%9B%E6%94%B6+%E5%8F%B0%E6%B9%BE+%E9%AB%98%E4%B8%AD+%E6%AF%95%E4%B8%9A%E7%94%9F+%E6%8B%9B%E7%94%9F%E7%AE%80%E7%AB%A0",
+      "raw_text_length": 0
+    }
+  ],
+  "low_quality_not_found_count": 0
+}

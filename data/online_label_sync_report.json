@@ -1,0 +1,31 @@
+{
+  "synced_at": "2026-02-25T21:17:47.310531",
+  "mode": "online",
+  "sources": {
+    "moe_985": "https://www.moe.gov.cn/srcsite/A22/s7065/200612/t20061206_128833.html",
+    "moe_211": "https://www.moe.gov.cn/srcsite/A22/s7065/200512/t20051223_82762.html",
+    "moe_shuangyiliu_pdf": "https://www.moe.gov.cn/srcsite/A22/s7065/202202/W020220214318455516037.pdf",
+    "tw_moe_recognized_pdf": "https://ws.moe.edu.tw/001/Upload/4/relfile/7840/100694/65a057d3-f1f9-4829-90ea-ea196abaafd8.pdf"
+  },
+  "online_sets": {
+    "matched_985": 39,
+    "matched_211": 107,
+    "matched_shuangyiliu": 133,
+    "matched_taiwan_by_domain": 131,
+    "matched_taiwan_fallback": 11,
+    "tw_domains_count": 153
+  },
+  "schools_stats": {
+    "total": 450,
+    "tier_stats": {
+      "985": 39,
+      "211": 69,
+      "双一流": 26,
+      "非双一流": 316
+    },
+    "taiwan_recognized": 142
+  },
+  "results_stats": {
+    "updated": 450
+  }
+}

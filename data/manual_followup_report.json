@@ -1,0 +1,982 @@
+{
+  "timestamp": "2026-02-26T20:04:32.903783",
+  "status_counts": {
+    "success": 342,
+    "not_found": 108,
+    "failed": 0
+  },
+  "success_found_without_subject_count": 33,
+  "success_found_without_subject": [
+    {
+      "school_id": "3539644262",
+      "school_name": "北京第二外国语学院中瑞酒店管理学院",
+      "source_url": "https://www.bhi.edu.cn/122/13220/tw_detail.html?type=1",
+      "related_links": [],
+      "image_links": [
+        "https://www.bhi.edu.cn/images/search.png",
+        "https://www.bhi.edu.cn/images/nav1.jpg",
+        "https://www.bhi.edu.cn/images/admin.png",
+        "https://www.bhi.edu.cn/images/gongbeian.png",
+        "https://www.bhi.edu.cn/images/zrtc.png"
+      ],
+      "notes": "简章内容仅包含标题和网页框架，未列出具体录取标准、专业要求及联系方式。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644530",
+      "school_name": "天津大学",
+      "source_url": "本科招生网 http://zs.tju.edu.cn/",
+      "related_links": [
+        {
+          "url": "本科招生网 http:/zs.tju.edu.cn/info/1116/3709.htm",
+          "text": "12/18 天津大学2026年招收台湾地区高中毕业生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "本科招生网 http:/zs.tju.edu.cn/info/1116/3739.htm",
+          "text": "01/18 天津大学2026年运动训练专业招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "本科招生网 http:/zs.tju.edu.cn/info/1116/3679.htm",
+          "text": "11/28 天津大学2026年香港地区中学文凭考试学生招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "本科招生网 http:/zs.tju.edu.cn/info/1116/3659.htm",
+          "text": "10/27 天津大学2026年中国普通高等学校联合招收澳门保送生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "http://zs.tju.edu.cn/21sy/images/1643.jpg",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5ozLCYL8C4LmNiMQmCYU4AVo7LiL47qaoRTkUmAknlUYLzL0gihFp2hmCIa0LYyDLYysoSyaL4L4Mll8Mm-iMRAVMRGsnlUan7rRnRTRnmMFUm9YLlMfnlWFLmf2o7-Jqjfjo4OeosX4gDTJQty0gzL0gzLJqdpnx&oid=1463726025&e=.jpg",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5LmGCPnR-PLRT7MQz6kM4GDUNVfL8QqfUzn7L8QkolU8LR70gihFp2hmCIa0U1hVU1ybLSybnN7aUzQ2LmrknlMkoRVRUN-sMNlYLRW7UzfFM4UPM49aMzTFUmQ7ozLJv2bjo4OeosX4gDTJQty0gzL0gzLJqdpnx&oid=1463726025&e=.png",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5LRUCPMlrRLmU8MQzMVMlMfMlCiU8LqDL4rfMlU4Lml4nRN0gihFp2hmCIa0MYhRLkhRnSyYM8nfU8UDLRWRoz9iMl-4UmQRnlLPMmQ7LzAFnm-YUmW2M4TFoz9iLNlJv2bjo4OeosX4gDTJQty0gzL0gzLJqdpnx&oid=1463726025&e=.png",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5M7UCYU4v8UzMkoQzvYnlM2U8Q2nNrq7nRrRU8rkLlQkL4-0gihFp2hmCIa0nShkLSh2LYysMNUPM7CsU46RnNL8nmLio7rkM4M2M8r7L7MFU47PU49ZMNQFMmnkMSb/v2veo4Oe_jL0qIbtpYyxLYyxLYbw62p8c&oid=1463726025&e=.jpg",
+        "http://zs.tju.edu.cn/21sy/images/part2-01.png",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5MmTCRL4ffL8Q2MQmNsUzCZLRLYMzlq4Uzl8L8lZnl-sLz70gihFp2hmCIa0LSyioShRLShfLzvsLmvPLlMfMRnVUmrfUl-YU8CDnR9PLNMFUzlioz-bU4rFL4G8nNUJv2bjo4OeosX4gDTJQty0gzL0gzLJqdpnx&oid=1463726025&e=.png",
+        "http://zs.tju.edu.cn/virtual_attach_file.vsb?afc=5MRUC4MRV7MmQRUQ8lYLNMfUzLaMlVqVMRliU4G4M4UaLlC0gihFp2hmCIa0nkhfMSybUSyZM8U4M7VfLmVVnmnfL77bUz9boz9snzL8U8WFM8MRLN-PUzrFLmrkL8LJv2bjo4OeosX4gDTJQty0gzL0gzLJqdpnx&oid=1463726025&e=.png"
+      ],
+      "notes": "简章标题已于12月18日发布，但所给文本仅为新闻列表，未包含具体科目等级要求等详细内容。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644576",
+      "school_name": "天津美术学院",
+      "source_url": "http://www.tjarts.edu.cn/info/1156/16623.htm",
+      "related_links": [],
+      "image_links": [
+        "http://www.tjarts.edu.cn/images/erweima2.jpg",
+        "http://www.tjarts.edu.cn/images/erweima1.jpg",
+        "http://www.tjarts.edu.cn/images/sydw.png"
+      ],
+      "notes": "提供的内容仅包含简章标题及网页框架，未包含具体招生标准、专业要求或报名截止日期等详细信息。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644439",
+      "school_name": "天津音乐学院",
+      "source_url": "https://www.tjcm.edu.cn/xxjj/jgsz/gjjlzx/bkzn.htm",
+      "related_links": [
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20205.htm",
+          "text": "天津音乐学院2026年依据学测成绩招收台湾高中毕业生简章",
+          "score": 17,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1815802825&wbfileid=3959919",
+          "text": "附件-天津音乐学院2026年依据学测成绩招收台湾高中毕业生申请表.doc",
+          "score": 18,
+          "is_attachment": true
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20204.htm",
+          "text": "天津音乐学院2026年港澳台联招招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20204.htm",
+          "text": "天津音乐学院2026年港澳台联招招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20205.htm",
+          "text": "天津音乐学院2026年依据学测成绩招收台湾高中毕业生简章",
+          "score": 17,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1815802825&wbfileid=3959909",
+          "text": "附件-天津音乐学院2026年港澳台联招考生申请表.doc",
+          "score": 14,
+          "is_attachment": true
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20209.htm",
+          "text": "天津音乐学院2026年国际学生本科招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20208.htm",
+          "text": "天津音乐学院2026年国际学生硕士研究生招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1815802825&wbfileid=3959964",
+          "text": "附件：天津音乐学院国际学生申请表.doc",
+          "score": 6,
+          "is_attachment": true
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20208.htm",
+          "text": "天津音乐学院2026年国际学生硕士研究生招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20205.htm",
+          "text": "天津音乐学院2026年依据学测成绩招收台湾高中毕业生简章",
+          "score": 17,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.tjcm.edu.cn/info/1308/20209.htm",
+          "text": "天津音乐学院2026年国际学生本科招生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://www.tjcm.edu.cn/images/20230308by.jpg",
+        "https://www.tjcm.edu.cn/images/sjmt-biao1.png",
+        "https://www.tjcm.edu.cn/images/22/02/25/13gzn5c49a/weixin.jpg",
+        "https://www.tjcm.edu.cn/images/sjmt-biao2.png",
+        "https://www.tjcm.edu.cn/images/22/02/25/13gzn5c49a/weibo.jpg",
+        "https://www.tjcm.edu.cn/images/sydw.png"
+      ],
+      "notes": "简章标题确认2026年招生，发布日期为2026-01-27，但附件正文内容为二进制乱码，无法提取具体的学测科目等级要求。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644326",
+      "school_name": "上海交通大学",
+      "source_url": "https://admissions.sjtu.edu.cn/",
+      "related_links": [
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004161&name=重要资讯&sid=3810000004171&pName=首页",
+          "text": "上海交通大学2026年台湾地区本科生招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004176&name=重要资讯&xid=3810000004174&sid=3810000004178&pName=首页",
+          "text": "上海交通大学2026年运动训练专业招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004171&name=重要资讯&xid=3810000004161&sid=3810000004172&pName=首页",
+          "text": "上海交通大学招生办公室2026年寒假咨询安排",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004162&name=重要资讯&xid=3810000004157&sid=3810000004165&pName=首页",
+          "text": "上海交通大学2026年外语类保送生招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004157&name=重要资讯&xid=3810000004156&sid=3810000004162&pName=首页",
+          "text": "上海交通大学2026年中国内地普通高等学校联合招收澳门保送生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://admissions.sjtu.edu.cn/newDetails?contentsID=3810000004156&name=重要资讯&xid=3810000004155&sid=3810000004157&pName=首页",
+          "text": "上海交通大学2026年招收香港中学文凭考试学生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://admissions.sjtu.edu.cn/uploadFile/17273374247542814/637243025010026519_2_24413.jpg",
+        "https://admissions.sjtu.edu.cn/uploadFile/17273360769412836/638513702036310822_2_21716.png",
+        "https://admissions.sjtu.edu.cn/uploadFile/17273331165213998/638524197796308480_2_86762.jpg",
+        "https://admissions.sjtu.edu.cn/uploadFile/17273375785085260/638506040482631372_2_46040.jpg",
+        "https://admissions.sjtu.edu.cn/uploadFile/17273316915369776/638509328098273783_2_48357.jpg",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/picLbtn.cafe77a.png",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/picRbtn.64e0fa7.png",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/levelS1.4a11fd6.jpg",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/topnew.ca3fe86.jpg",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/erweima.22e920e.png",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/erweima1.edb7bb4.png",
+        "https://admissions.sjtu.edu.cn/_nuxt/img/jdzswb.0c90415.jpg"
+      ],
+      "notes": "简章标题已于2026年1月15日发布，但所提供的文本内容中未包含具体招生要求、科目标准及截止日期等细节。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644626",
+      "school_name": "上海音乐学院",
+      "source_url": "https://jwc.shcmusic.edu.cn/437/list.htm",
+      "related_links": [
+        {
+          "url": "https://jwc.shcmusic.edu.cn/2025/1212/c493a59741/page.htm",
+          "text": "上海音乐学院2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生...",
+          "score": 10,
+          "is_attachment": false
+        },
+        {
+          "url": "https://jwc.shcmusic.edu.cn/2026/0122/c493a60119/page.htm",
+          "text": "关于打印2026年上海音乐学院本科艺术专业招生校考准考证的通知",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://jwc.shcmusic.edu.cn/_upload/site/00/15/21/logo.png",
+        "https://jwc.shcmusic.edu.cn/_upload/column/01/b5/437/picture.jpg",
+        "https://jwc.shcmusic.edu.cn/_upload/tpl/00/21/33/template33/images/jw1.jpg",
+        "https://jwc.shcmusic.edu.cn/_upload/tpl/00/21/33/template33/images/tk.png"
+      ],
+      "notes": "简章已于2025年12月12日发布，但具体学测科目等级要求未在提供的文本片段中列出。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644411",
+      "school_name": "上海政法学院",
+      "source_url": "https://zs.shupl.edu.cn/",
+      "related_links": [
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?DetailId=b8fb14e7-e8c9-4f48-b28f-cb67540b72fa",
+          "text": "上海政法学院2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?MenuId=7b7b4699-acb7-4193-a385-5b077e24bbd5",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?DetailId=80758088-e897-43c6-b7ab-462ec747c63a",
+          "text": "上海政法学院关于2026年春季招生自主测试时间选定结果的通知",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?MenuId=7b7b4699-acb7-4193-a385-5b077e24bbd5",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?DetailId=0d10ff85-b802-48a9-b3e1-fa964bbc61e2",
+          "text": "上海政法学院关于2026年春季招生自主测试资格线及自主测试有关事项的通知",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?MenuId=7b7b4699-acb7-4193-a385-5b077e24bbd5",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?DetailId=857721c3-37cc-491d-818c-b02736667e43",
+          "text": "上海政法学院2026年春季招生自主测试方案",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.shupl.edu.cn/Default.aspx?MenuId=7b7b4699-acb7-4193-a385-5b077e24bbd5",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zs.shupl.edu.cn/images_zf/logo.png",
+        "https://zs.shupl.edu.cn/images_zf/list1.jpg",
+        "https://zs.shupl.edu.cn/images_zf/list2.jpg",
+        "https://zs.shupl.edu.cn/images_zf/list3.jpg",
+        "https://zs.shupl.edu.cn/images_zf/list4.jpg",
+        "https://zs.shupl.edu.cn/images_zf/nav_1.png",
+        "https://zs.shupl.edu.cn/images_zf/nav_2.png",
+        "https://zs.shupl.edu.cn/images_zf/nav_3.png"
+      ],
+      "notes": "简章标题已于2026年1月7日发布，但提供的文本内容中未包含具体科目要求、名额及截止日期等详细条款。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644477",
+      "school_name": "上海纽约大学",
+      "source_url": "https://shanghai.nyu.edu/cn/page/shang-hai-niu-yue-da-xue2026-nian-ben-ke-zhao-sheng-jian-zhang-gang-ao-tai-xue-sheng",
+      "related_links": [],
+      "image_links": [
+        "https://shanghai.nyu.edu/themes/custom/shanghai/images/r2/logo_white_topbar.png",
+        "https://shanghai.nyu.edu/themes/custom/shanghai/images/r2/logo.png?rel=2",
+        "https://cdn.shanghai.nyu.edu/sites/default/files/media/picture1_3.png",
+        "https://shanghai.nyu.edu/themes/custom/shanghai/images/r2/logo_white.png",
+        "https://shanghai.nyu.edu/themes/custom/shanghai/images/ghs.png"
+      ],
+      "notes": "采用综合评价录取模式；学生入学时不分专业，大二结束前选专业；含1-2学期海外学习。",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644536",
+      "school_name": "南京大学",
+      "source_url": "https://bkzs.nju.edu.cn/static/front/nju/basic/html_cms/frontViewArticle1.html?id=b01c9a391cec4224a3a74f485ce5154e",
+      "related_links": [],
+      "image_links": [],
+      "notes": "招生计划60人；具体各专业科目要求详见简章附件1《招生专业目录及报考要求》 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644335",
+      "school_name": "东南大学",
+      "source_url": "https://zsb.seu.edu.cn/2025/1212/c23623a548367/page.htm",
+      "related_links": [],
+      "image_links": [
+        "https://zsb.seu.edu.cn/_upload/article/images/01/ae/ce24ea9d4f918b6304b5eeeb895a/03c1b39b-358c-4809-b029-24c2d9fde204_s.png",
+        "https://zsb.seu.edu.cn/_upload/article/images/9d/54/2090be9346ad8fddc192245ca4be/1d99bf84-3be9-4624-9e16-9cda3db23a41_s.png",
+        "https://zsb.seu.edu.cn/_upload/article/images/5b/08/0c0ed8a74afd9898313e20adc144/0b5162dd-7dff-4046-9502-b50cf3edf4ff_s.jpg",
+        "https://zsb.seu.edu.cn/_upload/article/images/11/52/575f01df4d3c96dae9efdc2b6798/ea65834c-09d4-4e7c-a08c-63179db606ad_s.jpg",
+        "https://zsb.seu.edu.cn/_upload/article/images/c9/7a/ad7f34124bc1aa8d18aff69f0941/1f2114d3-41c5-42ad-add1-027d8273778c_s.png",
+        "https://zsb.seu.edu.cn/_upload/article/images/3c/59/92f7b16f4991bc33650c3665d25e/761d0811-b4fe-4f62-8789-5dbfeaf35495_s.jpg",
+        "https://zsb.seu.edu.cn/_upload/article/images/9c/83/ca8d7e4346c9bb74ebf6b097349b/e5c1fd49-a9b6-440d-9d27-b5e8ffaa0ffe_s.png",
+        "https://zsb.seu.edu.cn/_upload/article/images/66/55/610865a9409fbd5e6721ff988363/cd7ba28a-6446-41ce-b4e1-b917347dfc6d_s.jpg"
+      ],
+      "notes": "简章内容仅包含标题及发布信息，未列出具体录取标准及专业要求",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644357",
+      "school_name": "南京艺术学院",
+      "source_url": "招生网址：https://zhaosheng.nua.edu.cn/",
+      "related_links": [
+        {
+          "url": "/2025/1219/c4813a118987/page.htm",
+          "text": "南京艺术学院2026年依据学测成绩招收台湾地区高中毕业生简章",
+          "score": 17,
+          "is_attachment": false
+        },
+        {
+          "url": "/2026/0104/c4759a119251/page.htm",
+          "text": "南京艺术学院 2026 年华侨港澳台本科招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "/2026/0203/c4759a119561/page.htm",
+          "text": "南京艺术学院2026年江苏省中职职教高考招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "/2026/0126/c4759a119508/page.htm",
+          "text": "南京艺术学院 2026 年本科招生校考复试工作安排的公告",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/f9/50/a645db3a4a35a30148c4d727516d/87b0eb84-22a3-4ab9-bfc8-3f9e7c65b3cf_s.png",
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/22/b7/c7435a1344c3ac7e092abc092d23/0a5b2023-bd56-4b96-a3a4-96811ee3d3c5_s.png",
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/18/62/a2472c444ea8923f95f259e5f7b5/e44891c0-0b32-471b-adba-e96c0cb1feaa_s.png",
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/e9/bc/43a7aa4f41b59417d9ddbaa0642e/504ac816-89bf-45c9-bcb8-572440293263_s.png",
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/20/11/9b9f1f024e62bab354256b88927b/1a66f62b-f5b0-40b0-9f81-f0b6444ecf32_s.png",
+        "https://zhaosheng.nua.edu.cn/_upload/article/images/32/2b/07f5f1404f7cb2c1960f2dec09ae/9eeb913a-5632-49c8-8bb6-74d70d67c39d_s.png"
+      ],
+      "notes": "提供的内容仅为招生网站目录及简章标题，未包含具体的学测科目等级要求、报名截止日期等详细条款。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644244",
+      "school_name": "南京邮电大学",
+      "source_url": "https://exchange.njupt.edu.cn/2025/1209/c16717a293837/page.htm",
+      "related_links": [
+        {
+          "url": "https://exchange.njupt.edu.cn/_upload/article/files/ed/39/ddad6cea4384aadbd0bf689784d4/65ea7cce-d57f-4ffb-b9d0-c077ed508ba5.pdf",
+          "text": "南京邮电大学2026年招收台湾学测生专业目录.pdf",
+          "score": 16,
+          "is_attachment": true
+        },
+        {
+          "url": "https://exchange.njupt.edu.cn/gjhcg/list.htm",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://exchange.njupt.edu.cn/_upload/site/00/95/149/logo.png",
+        "https://exchange.njupt.edu.cn/_upload/article/images/88/e4/893f91cc42d7a3e10e97643c567a/75c05615-5bfb-4577-80c0-f5ebb1ff95c7_s.jpg"
+      ],
+      "notes": "简章正文内容未在文本中完整显示，仅提取到专业目录，未见具体学测等级要求 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644669",
+      "school_name": "浙江音乐学院",
+      "source_url": "https://www.zjcm.edu.cn/xywz/zsjy/zsw/index.html",
+      "related_links": [
+        {
+          "url": "https://www.zjcm.edu.cn/attachment/20260204/e39a5dae6bc01f241bb68a3b1bda0acc.pdf?n=2026%E5%B9%B4%E5%8D%8E%E4%BE%A8%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%AC%E7%A7%91%E6%8B%9B%E7%94%9F%E7%BA%BF%E4%B8%8A%E8%80%83%E8%AF%95%E9%A1%BB%E7%9F%A5%E5%92%8C%E8%A7%86%E9%A2%91%E5%88%B6%E4%BD%9C%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E",
+          "text": "浙江音乐学院2026年华侨港澳台本科招生线上考试须知和视频制作操作说明.pdf",
+          "score": 15,
+          "is_attachment": true
+        },
+        {
+          "url": "https://www.zjcm.edu.cn/xywz/zsjy/zsw/202601/70965.html",
+          "text": "下一篇：2026年普通高校招生戏曲类（...",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.zjcm.edu.cn/xywz/zsjy/zsw/202601/70935.html",
+          "text": "下一篇：关于公布2026年普通高校招生...",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.zjcm.edu.cn/xywz/zsjy/zsw/202602/71033.html",
+          "text": "2026-02-09 关于公布浙江音乐学院2026年本科招生专业校考初试合格分数线、合格考生名单及复试...",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://www.zjcm.edu.cn/attachment/20260209/20cda673fc5bb056e29107043ddf6c2d.pdf?n=1%EF%BC%9A%E6%B5%99%E6%B1%9F%E9%9F%B3%E4%B9%90%E5%AD%A6%E9%99%A22026%E5%B9%B4%E6%9C%AC%E7%A7%91%E6%8B%9B%E7%94%9F%E4%B8%93%E4%B8%9A%E6%A0%A1%E8%80%83%E5%88%9D%E8%AF%95%E5%90%88%E6%A0%BC%E5%88%86%E6%95%B0%E7%BA%BF",
+          "text": "附件1：浙江音乐学院2026年本科招生专业校考初试合格分数线.pdf",
+          "score": 13,
+          "is_attachment": true
+        },
+        {
+          "url": "https://www.zjcm.edu.cn/attachment/20260209/c5438a13176417b8f2f6f6888c0d71be.pdf?n=2%EF%BC%9A%E6%B5%99%E6%B1%9F%E9%9F%B3%E4%B9%90%E5%AD%A6%E9%99%A22026%E5%B9%B4%E6%9C%AC%E7%A7%91%E6%8B%9B%E7%94%9F%E6%A0%A1%E8%80%83%E5%88%9D%E8%AF%95%E5%90%88%E6%A0%BC%E8%80%83%E7%94%9F%E5%90%8D%E5%8D%95",
+          "text": "附件2：浙江音乐学院2026年本科招生校考初试合格考生名单.pdf",
+          "score": 13,
+          "is_attachment": true
+        }
+      ],
+      "image_links": [
+        "https://www.zjcm.edu.cn/images/link.jpg",
+        "https://www.zjcm.edu.cn/images/wechat.jpg",
+        "https://www.zjcm.edu.cn/images/weibo.jpg",
+        "https://www.zjcm.edu.cn/images/douyin.jpg",
+        "https://www.zjcm.edu.cn/images/bili.jpg",
+        "https://www.zjcm.edu.cn/attachment/20260131/c617f4e66efa005e7669338e9741584c/600.jpg"
+      ],
+      "notes": "提供的内容主要为专业校考线上考试的技术操作说明及须知，未列出具体的学测科目等级要求。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644358",
+      "school_name": "浙江工业大学",
+      "source_url": "http://zs.zjut.edu.cn/html/index.html",
+      "related_links": [
+        {
+          "url": "http://zs.zjut.edu.cn/jsp/news.jsp?neId=2545",
+          "text": "浙江工业大学2026年免试招收台湾地区高中毕业生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zs.zjut.edu.cn/jsp/news.jsp?neId=2544",
+          "text": "浙江工业大学2026年招收香港中学文凭考试学生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zs.zjut.edu.cn/jsp/news.jsp?neId=2539",
+          "text": "浙江工业大学2026年招收澳门保送生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zs.zjut.edu.cn/jsp/news.jsp?neId=2526",
+          "text": "浙江工业大学2025年招收华侨港澳台学生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "http://zs.zjut.edu.cn/upload/image/2023/0516/1684211365398041168.jpg",
+        "http://zs.zjut.edu.cn/upload/image/2023/0516/1684211381335041788.jpg",
+        "http://zs.zjut.edu.cn/upload/image/2023/0516/1684211390933033118.jpg",
+        "http://zs.zjut.edu.cn/upload/image/2023/0516/1684211401763090359.jpg",
+        "http://zs.zjut.edu.cn/upload/image/2023/0516/1684211414112076014.jpg",
+        "http://zs.zjut.edu.cn/jsp/images/w-ptl.png",
+        "http://zs.zjut.edu.cn/jsp/images/w-msl.png",
+        "http://zs.zjut.edu.cn/jsp/images/w-gsp.png"
+      ],
+      "notes": "文本仅包含2026年招收台湾地区高中毕业生简章的标题，未提供具体科目要求、级分标准及报名截止日期等详细内容。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644389",
+      "school_name": "安徽农业大学",
+      "source_url": "https://zsb.ahau.edu.cn/",
+      "related_links": [
+        {
+          "url": "https://zsb.ahau.edu.cn/info/1028/11524.htm",
+          "text": "安徽农业大学2026年依据台湾地区大学入学考试学科能力测试成...",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsb.ahau.edu.cn/info/1028/11544.htm",
+          "text": "关于开展安徽农业大学2026年种子“芯”愿寒假返母校招生宣传...",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsb.ahau.edu.cn/info/1028/11704.htm",
+          "text": "关于公布我校2026年普通高校专升本拟招生方案的通知",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsb.ahau.edu.cn/info/1027/11684.htm",
+          "text": "学校举办2026年寒假招生宣传社会实践活动动员大会",
+          "score": 7,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zsb.ahau.edu.cn/images/weixintupian_20250711154923.jpg",
+        "https://zsb.ahau.edu.cn/images/weixintupian_20250613152317.png",
+        "https://zsb.ahau.edu.cn/images/202328.jpg",
+        "https://zsb.ahau.edu.cn/images/33.jpg",
+        "https://zsb.ahau.edu.cn/images/peixunjihua.png",
+        "https://zsb.ahau.edu.cn/images/zhaosheng.png",
+        "https://zsb.ahau.edu.cn/images/fenshuxianchaxun.png",
+        "https://zsb.ahau.edu.cn/images/luqutongzhishu.png",
+        "https://zsb.ahau.edu.cn/__local/2/41/20/27C0A72A7A324C72955911C3363_D6A7E3E2_C097.png",
+        "https://zsb.ahau.edu.cn/__local/4/4C/EA/B266647B6500E7B9653C1328BC8_31AD351A_44078.jpg"
+      ],
+      "notes": "提供的内容仅包含简章发布标题及日期（2025-12-10），未包含具体录取标准、专业要求及报名截止日期等详细信息。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644370",
+      "school_name": "安徽中医药大学",
+      "source_url": "https://bkzs.ahtcm.edu.cn/info/1233/4746.htm",
+      "related_links": [],
+      "image_links": [
+        "https://bkzs.ahtcm.edu.cn/images/logo.png",
+        "https://bkzs.ahtcm.edu.cn/images/nybanner.png"
+      ],
+      "notes": "提供的内容仅包含简章标题、发布日期及联系电话，未包含具体报名截止日期、学测成绩要求及专业详情。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644305",
+      "school_name": "福州大学",
+      "source_url": "https://zsks.fzu.edu.cn/bkzn/zkzl/gatq.htm",
+      "related_links": [
+        {
+          "url": "https://zsks.fzu.edu.cn/2026fuzhoudaxuezhaoshouhuaqiaogangaotaimeishuleixueshengbaomingbiao.doc",
+          "text": "点击下载",
+          "score": 8,
+          "is_attachment": true
+        },
+        {
+          "url": "https://zsks.fzu.edu.cn/2026fuzhoudaxuezhaoshouhuaqiaogangaotaiyinleleixueshengbaomingbiao.doc",
+          "text": "点击下载",
+          "score": 8,
+          "is_attachment": true
+        }
+      ],
+      "image_links": [
+        "https://zsks.fzu.edu.cn/dfiles/11327/themes/16769/vm19_133531/zsb/img/search.jpg",
+        "https://zsks.fzu.edu.cn/dfiles/11327/themes/16769/vm19_133531/zsb/img/center.png",
+        "https://zsks.fzu.edu.cn/dfiles/11327/themes/16769/vm19_133531/zsb/mobile/caidan.jpg",
+        "https://zsks.fzu.edu.cn/dfiles/11327/themes/16769/vm19_133531/zsb/img/guanli.png",
+        "https://zsks.fzu.edu.cn/dfiles/11327/themes/16769/vm19_133531/zsb/img/nav.jpg"
+      ],
+      "notes": "简章正文未在文中提供，仅见目录索引及艺术类报名表，具体学测科目等级要求未知。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644452",
+      "school_name": "福建理工大学",
+      "source_url": "https://join.fjut.edu.cn/2025/1210/c4011a262134/page.htm",
+      "related_links": [],
+      "image_links": [
+        "https://join.fjut.edu.cn/_upload/article/images/ba/0f/da0a273e4a39b7886d92a5a3d1f6/9f00b377-eebc-4eee-8136-5499d5b013bb.jpg",
+        "https://join.fjut.edu.cn/_upload/article/images/91/e7/d2a2ff0c4d04a8ded39b0f09e26e/c8fd204b-0d2c-4309-8572-789c4d30b5bf.jpg",
+        "https://join.fjut.edu.cn/_upload/article/images/f3/c8/8acf51fe46b1952ac74c7bf8f505/d05a3e80-a464-40f9-b657-2450686292e2.jpg"
+      ],
+      "notes": "",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644410",
+      "school_name": "泉州师范学院",
+      "source_url": "https://www.qztc.edu.cn/zs/2025/1213/c1930a290069/page.htm",
+      "related_links": [],
+      "image_links": [
+        "https://www.qztc.edu.cn/_upload/tpl/01/cd/461/template461/images/list-bg.jpg"
+      ],
+      "notes": "提供内容仅包含简章标题及发布时间，未见具体招生标准、专业目录及报名截止日期。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644489",
+      "school_name": "福建江夏学院",
+      "source_url": "https://zsb.fjjxu.edu.cn/page/detail/VFREIL/9427/64021",
+      "related_links": [],
+      "image_links": [],
+      "notes": "提供的内容仅包含简章标题，未列出具体录取标准、专业要求或申请截止日期。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644323",
+      "school_name": "云南师范大学",
+      "source_url": "https://zsc.ynnu.edu.cn/info/1008/2109.htm",
+      "related_links": [
+        {
+          "url": "https://zsc.ynnu.edu.cn/info/1008/1931.htm",
+          "text": "云南师范大学2023年中国普通高等学校联合招收华侨港澳台学生招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsc.ynnu.edu.cn/info/1007/2108.htm",
+          "text": "云南师范大学2026年专升本招生专业对应关系公示",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsc.ynnu.edu.cn/info/1007/2129.htm",
+          "text": "云南师范大学2026年专升本招生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zsc.ynnu.edu.cn/images/nyban.jpg"
+      ],
+      "notes": "招生计划共5人（本科4人，预科1人）。专业涵盖文史类和理工类，包括英语、汉语言文学、法学、数学与应用数学等。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644645",
+      "school_name": "云南财经大学",
+      "source_url": "https://bkzsb.ynufe.cloud/",
+      "related_links": [],
+      "image_links": [
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20220415/7-2204151F411209.jpg",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20220314/1-2203141400111I.png",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/new.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20230625/9-2306251PA1261.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20230625/9-2306251K9304V.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20230625/9-2306251J95R27.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20230623/9-2306231649193O.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20220521/7-22052122242K58.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/allimg/20220314/1-220314140004192.png",
+        "https://bkzsb.ynufe.cloud/uploads/ynufe/ueditor/20251205/10-2512051120153W.jpg",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/code-mini.jpg",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/code-bilibili.jpg",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/code-dy.jpg",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/code-toutiao.png",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/code-qun.png",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/address.png",
+        "https://bkzsb.ynufe.cloud/template/default/pc/skin/img/email.png"
+      ],
+      "notes": "简章标题已于2025-12-12公示，但所给文本未包含具体科目要求、名额及报名截止日期等详细内容。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644603",
+      "school_name": "厦门医学院",
+      "source_url": "https://www.xmmc.edu.cn/zsxx/info/1012/6153.htm",
+      "related_links": [],
+      "image_links": [
+        "https://www.xmmc.edu.cn/zsxx/images/logo.png"
+      ],
+      "notes": "简章正文内容缺失，仅提取到标题及联系电话 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644337",
+      "school_name": "江西理工大学",
+      "source_url": "https://zs.jxust.edu.cn/info/1017/2422.htm",
+      "related_links": [
+        {
+          "url": "https://zs.jxust.edu.cn/info/1017/2435.htm",
+          "text": "江西理工大学2026年专升本 “大国工匠班”招生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zs.jxust.edu.cn/info/1017/2422.htm",
+          "text": "江西理工大学2026年依据台湾地区大学入学考试 学科能力测试成绩招收台湾高中毕业生招生简章",
+          "score": 13,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zs.jxust.edu.cn/images/logo.png",
+        "https://zs.jxust.edu.cn/images/ban1.jpg",
+        "https://zs.jxust.edu.cn/images/fd-logo.png",
+        "https://zs.jxust.edu.cn/images/code01.png",
+        "https://zs.jxust.edu.cn/images/i-02.png"
+      ],
+      "notes": "提供的文本仅包含简章标题及联系方式，未包含具体科目要求、名额及报名截止日期等详细内容。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644505",
+      "school_name": "德州学院",
+      "source_url": "https://zs.dzu.edu.cn/info/1022/1765.htm",
+      "related_links": [],
+      "image_links": [
+        "https://zs.dzu.edu.cn/images/logo.png",
+        "https://zs.dzu.edu.cn/images/ser.png",
+        "https://zs.dzu.edu.cn/images/menu.png",
+        "https://zs.dzu.edu.cn/images/close.png",
+        "https://zs.dzu.edu.cn/images/nyban.png",
+        "https://zs.dzu.edu.cn/images/weixin.jpg"
+      ],
+      "notes": "简章正文内容缺失，仅包含标题及联系方式 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644558",
+      "school_name": "湖北工业大学",
+      "source_url": "https://zs.hbut.edu.cn/page/detail/QXALHX/4467/64026",
+      "related_links": [],
+      "image_links": [
+        "https://img.zhinengdayi.com/imgServer/QXALHX/2017-10-10/EY8TiRNEwK.png",
+        "https://static.zhinengdayi.com/images/v3_1template/footer_bg1.jpg",
+        "https://img.zhinengdayi.com/imgServer/HIAADL/2025-04-08/i5JaiWBRXm.png",
+        "https://admin.zhinengdayi.com/static/image/anbei.png"
+      ],
+      "notes": "提供的内容仅包含简章标题、发布时间及联系方式，未包含具体学测等级要求及报名截止日期。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644641",
+      "school_name": "长江大学",
+      "source_url": "https://hzjl.yangtzeu.edu.cn/info/1118/6224.htm",
+      "related_links": [
+        {
+          "url": "https://hzjl.yangtzeu.edu.cn/info/1118/6236.htm",
+          "text": "长江大学2026-2027学年中国政府奖学金“高水平研究生”项目（B类）申请指南",
+          "score": 6,
+          "is_attachment": false
+        },
+        {
+          "url": "https://hzjl.yangtzeu.edu.cn/info/1118/6244.htm",
+          "text": "长江大学2026-2027学年中国政府奖学金国别项目（A类）申请指南",
+          "score": 6,
+          "is_attachment": false
+        },
+        {
+          "url": "https://hzjl.yangtzeu.edu.cn/info/1118/6244.htm",
+          "text": "长江大学2026-2027学年中国政府奖学金国别项目（A类）申请指南",
+          "score": 6,
+          "is_attachment": false
+        },
+        {
+          "url": "https://hzjl.yangtzeu.edu.cn/info/1118/6236.htm",
+          "text": "长江大学2026-2027学年中国政府奖学金“高水平研究生”项目（B类）申请指南",
+          "score": 6,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://hzjl.yangtzeu.edu.cn/images/2_03.png",
+        "https://hzjl.yangtzeu.edu.cn/images/shouyexuanchuandatu.jpg",
+        "https://hzjl.yangtzeu.edu.cn/images/zhangda20nian.png",
+        "https://hzjl.yangtzeu.edu.cn/images/picture3.jpg",
+        "https://hzjl.yangtzeu.edu.cn/images/Snipaste_2021-12-21_09-30-18.png",
+        "https://hzjl.yangtzeu.edu.cn/img/bri_icon1.png",
+        "https://hzjl.yangtzeu.edu.cn/images/liuxuezaizhangda.jpg"
+      ],
+      "notes": "提供的内容仅为简章发布页面，具体招生专业及学测成绩要求需参考附件《长江大学2026年依据台湾地区学测成绩招收台湾高中毕业生招生专业目录.xlsx》。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644550",
+      "school_name": "广东药科大学",
+      "source_url": "https://zsb.gdpu.edu.cn/info/1082/1531.htm",
+      "related_links": [
+        {
+          "url": "https://zsb.gdpu.edu.cn/gatzs.htm",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsb.gdpu.edu.cn/info/1082/1531.htm",
+          "text": "2025-12-13 广东药科大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生招…",
+          "score": 10,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zsb.gdpu.edu.cn/info/1082/1530.htm",
+          "text": "2025-11-07 广东药科大学2026年澳门保送生招生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zsb.gdpu.edu.cn/images/logo.png",
+        "https://zsb.gdpu.edu.cn/images/footbg.png"
+      ],
+      "notes": "简章具体报考条件及专业要求需下载附件《广东药科大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生招生简章.docx》查看 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    },
+    {
+      "school_id": "3539644589",
+      "school_name": "广州中医药大学",
+      "source_url": "https://studyoverseas.gzucm.edu.cn/info/1025/4368.htm",
+      "related_links": [
+        {
+          "url": "https://studyoverseas.gzucm.edu.cn/info/1025/4378.htm",
+          "text": "广州中医药大学2026年招收澳门保送学生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://studyoverseas.gzucm.edu.cn/info/1025/4368.htm",
+          "text": "广州中医药大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "https://studyoverseas.gzucm.edu.cn/info/1025/4388.htm",
+          "text": "广州中医药大学2026年招收香港中学文凭考试学生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [],
+      "notes": "简章正文内容缺失，仅提取到标题及发布日期（2025年12月12日），未见具体科目要求及报名截止日期。",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644251",
+      "school_name": "遵义医科大学",
+      "source_url": "https://zyzb.zmu.edu.cn/",
+      "related_links": [],
+      "image_links": [
+        "https://zyzb.zmu.edu.cn/image/LOGO3.png",
+        "https://zyzb.zmu.edu.cn/attached/Upload/20210604160732293229.png",
+        "https://zyzb.zmu.edu.cn/image/dh.png",
+        "https://zyzb.zmu.edu.cn/image/zy.png",
+        "https://zyzb.zmu.edu.cn/attached/Upload/20251222113041764176.jpg",
+        "https://zyzb.zmu.edu.cn/attached/Upload/2025061214310393393.jpg",
+        "https://zyzb.zmu.edu.cn/attached/Upload/20241126121326572657.jpg",
+        "https://zyzb.zmu.edu.cn/image/lqcx.jpg"
+      ],
+      "notes": "提供的内容为招生网简章发布目录，确认存在2026年招收台湾学测生计划，但具体科目要求及报名截止日期等详细内容未在文中列出。",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644301",
+      "school_name": "贵州中医药大学",
+      "source_url": "http://gjjl.gzy.edu.cn/info/1211/1693.htm",
+      "related_links": [],
+      "image_links": [
+        "http://gjjl.gzy.edu.cn/images/logo.png",
+        "http://gjjl.gzy.edu.cn/images/wxgzh.jpg"
+      ],
+      "notes": "简章已发布，具体学测科目等级要求需查阅附件PDF文件",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644609",
+      "school_name": "西南林业大学",
+      "source_url": "https://zb.swfu.edu.cn/info/1151/30081.htm",
+      "related_links": [
+        {
+          "url": "https://zb.swfu.edu.cn/info/1151/26591.htm",
+          "text": "西南林业大学2025年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "https://zb.swfu.edu.cn/info/1151/30081.htm",
+          "text": "西南林业大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生简章",
+          "score": 13,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "https://zb.swfu.edu.cn/images/logo.png",
+        "https://zb.swfu.edu.cn/images/fdj.png",
+        "https://zb.swfu.edu.cn/images/menu.png",
+        "https://zb.swfu.edu.cn/images/close.png",
+        "https://zb.swfu.edu.cn/images/0625.png",
+        "https://zb.swfu.edu.cn/__local/9/C2/92/146BDEDB58906D206ED232F3766_FBEB55CF_15EB1E.png",
+        "https://zb.swfu.edu.cn/images/foot-m2.png",
+        "https://zb.swfu.edu.cn/images/25/04/02/2btt5zg8ub/spewm.png"
+      ],
+      "notes": "提供的内容仅包含简章标题及发布日期（2025年12月12日），未包含具体报名截止日期、学测成绩要求或专业列表等详细信息。",
+      "confidence": "high"
+    },
+    {
+      "school_id": "3539644461",
+      "school_name": "陕西师范大学",
+      "source_url": "http://zsb.snnu.edu.cn/info/1339/4962.htm",
+      "related_links": [
+        {
+          "url": "http://zsb.snnu.edu.cn/info/1339/4952.htm",
+          "text": "陕西师范大学2026年招收香港中学文凭考试学生简章",
+          "score": 9,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zsb.snnu.edu.cn/info/1339/4962.htm",
+          "text": "陕西师范大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zsb.snnu.edu.cn/sy/zsxx/zsjz/gatzs.htm",
+          "text": "港澳台招生",
+          "score": 7,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zsb.snnu.edu.cn/info/1339/4962.htm",
+          "text": "2025-12-12 陕西师范大学2026年依据台湾地区大学入学考试学科能力测试成绩招收台湾高中毕业生招生简章",
+          "score": 13,
+          "is_attachment": false
+        },
+        {
+          "url": "http://zsb.snnu.edu.cn/info/1339/4952.htm",
+          "text": "2025-11-13 陕西师范大学2026年招收香港中学文凭考试学生简章",
+          "score": 9,
+          "is_attachment": false
+        }
+      ],
+      "image_links": [
+        "http://zsb.snnu.edu.cn/2021html/images/logo.png",
+        "http://zsb.snnu.edu.cn/2021html/images/rightText.png",
+        "http://zsb.snnu.edu.cn/2021html/images/Nybanner.jpg",
+        "http://zsb.snnu.edu.cn/2021html/images/icon_bnt_back2.png",
+        "http://zsb.snnu.edu.cn/2021html/images/bnt_sub_nav2.png",
+        "http://zsb.snnu.edu.cn/2021html/images/ewm01.png",
+        "http://zsb.snnu.edu.cn/2021html/images/ewm02.png"
+      ],
+      "notes": "简章已发布，但具体学测等级要求及专业目录需查阅附件PDF，网页正文未列出详细标准。 可能存在图片/附件中的科目要求，建议人工复核原文与附件。",
+      "confidence": "medium"
+    }
+  ]
+}

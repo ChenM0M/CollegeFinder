@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CollegeFinder - 汇总检索</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <header class="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">CollegeFinder</h1>
+                <p class="text-gray-600 mt-1">提取结果汇总 / 按学测成绩筛选可报学校</p>
+                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-02-27-1</p>
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+                <a href="/" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">返回工作台</a>
+                <button id="btn-refresh" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    刷新数据
+                </button>
+            </div>
+        </header>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                    <h2 class="text-xl font-semibold">可选专业（当前筛选范围）</h2>
+                    <div class="text-sm text-gray-600 mt-1">
+                        <span>可选: <span id="major-count" class="font-semibold">0</span></span>
+                        <span class="ml-3">已选: <span id="major-selected-count" class="font-semibold">0</span></span>
+                        <span id="major-note" class="ml-3 text-xs text-gray-500"></span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <input id="major-search" type="text" class="border rounded px-3 py-2 text-sm" placeholder="搜索专业...">
+                    <button id="btn-clear-majors" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded text-sm" disabled>
+                        清空专业筛选
+                    </button>
+                </div>
+            </div>
+            <div id="major-chips" class="mt-4 flex flex-wrap gap-2 max-h-48 overflow-auto pr-1"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-xl font-semibold">我的学测成绩（标准）</h2>
+                <div id="load-indicator" class="hidden text-sm text-gray-500">
+                    <span class="loader"></span>
+                    <span class="ml-2">加载中...</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">国文</label>
+                    <select id="score-chinese" class="w-full border rounded px-3 py-2"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">英文</label>
+                    <select id="score-english" class="w-full border rounded px-3 py-2"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">数学A</label>
+                    <select id="score-math_a" class="w-full border rounded px-3 py-2"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">数学B</label>
+                    <select id="score-math_b" class="w-full border rounded px-3 py-2"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">社会</label>
+                    <select id="score-social" class="w-full border rounded px-3 py-2"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">自然</label>
+                    <select id="score-science" class="w-full border rounded px-3 py-2"></select>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-4 items-center mt-4">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="chk-only-eligible" class="w-4 h-4" checked>
+                    <span class="text-sm">只看可报（填写成绩后生效）</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="chk-include-unknown" class="w-4 h-4">
+                    <span class="text-sm">包含需核对（要求缺失/级分）</span>
+                </label>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-700">排序</span>
+                    <select id="sort-by" class="border rounded px-3 py-2 text-sm">
+                        <option value="fit">最适配（默认）</option>
+                        <option value="tier">学校层级优先</option>
+                        <option value="deadline">截止日期优先</option>
+                    </select>
+                </div>
+
+                <button id="btn-reset" class="ml-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded">
+                    清空成绩
+                </button>
+            </div>
+
+            <div id="match-stats" class="mt-3 text-sm text-gray-600"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">筛选条件</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">地区（可多选）</label>
+                    <div class="relative">
+                        <button id="filter-area-btn" type="button" class="w-full border rounded px-3 py-2 bg-white text-left">
+                            <span id="filter-area-label">全部地区</span>
+                        </button>
+                        <div id="filter-area-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden">
+                            <div class="flex gap-2 items-center">
+                                <button id="filter-area-clear" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">清空</button>
+                                <button id="filter-area-all" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">全选</button>
+                            </div>
+                            <input id="filter-area-search" type="text" class="mt-2 w-full border rounded px-2 py-1 text-sm" placeholder="搜索地区...">
+                            <div id="filter-area-options" class="mt-2 max-h-56 overflow-auto text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">学校类别（可多选）</label>
+                    <div class="relative">
+                        <button id="filter-tier-btn" type="button" class="w-full border rounded px-3 py-2 bg-white text-left">
+                            <span id="filter-tier-label">全部类别</span>
+                        </button>
+                        <div id="filter-tier-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden">
+                            <div class="flex gap-2 items-center">
+                                <button id="filter-tier-clear" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">清空</button>
+                                <button id="filter-tier-all" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">全选</button>
+                            </div>
+                            <div id="filter-tier-options" class="mt-2 space-y-1 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">台湾承认</label>
+                    <select id="filter-taiwan" class="w-full border rounded px-3 py-2">
+                        <option value="">全部</option>
+                        <option value="yes">仅台湾承认</option>
+                        <option value="no">未承认</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">信心度</label>
+                    <select id="filter-confidence" class="w-full border rounded px-3 py-2">
+                        <option value="">全部</option>
+                        <option value="high">high</option>
+                        <option value="medium">medium</option>
+                        <option value="low">low</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">搜索</label>
+                    <input id="filter-search" type="text" class="w-full border rounded px-3 py-2" placeholder="学校名称/适用类别/专业...">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow">
+            <div class="p-4 border-b flex items-center justify-between gap-4 flex-wrap">
+                <h2 class="text-xl font-semibold">提取结果汇总 (<span id="row-count">0</span>)</h2>
+                <div id="data-meta" class="text-sm text-gray-500"></div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">学校</th>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">地区</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">适用类别</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">国文</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">英文</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">数学A</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">数学B</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">社会</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">自然</th>
+                            <th class="px-3 py-3 text-left whitespace-nowrap">其他条件</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">截止日期</th>
+                            <th class="px-3 py-3 text-center whitespace-nowrap">信心度</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table-body">
+                        <tr>
+                            <td colspan="12" class="px-4 py-8 text-center text-gray-500">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 hidden">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/40"></div>
+        <div class="relative mx-auto my-10 w-[95%] max-w-4xl">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 border-b flex items-center justify-between gap-3">
+                    <div>
+                        <div id="modal-title" class="text-lg font-semibold text-gray-900"></div>
+                        <div id="modal-subtitle" class="text-sm text-gray-600 mt-1"></div>
+                    </div>
+                    <button id="btn-close-modal" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1.5 rounded">关闭</button>
+                </div>
+                <div id="modal-content" class="p-4 max-h-[75vh] overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="summary.js?v=20260227-1"></script>
+</body>
+
+</html>
