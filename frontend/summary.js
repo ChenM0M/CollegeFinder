@@ -1,5 +1,5 @@
 // CollegeFinder Summary Page
-const UI_VERSION = '2026-02-28-2';
+const UI_VERSION = '2026-03-01-1';
 let API_BASE = '/api';
 
 const SUBJECTS = [
@@ -1123,16 +1123,351 @@ function recountStats(groups, scoreActive) {
 // Opportunity mode (built on existing table)
 const OPPTY_TARGET_GROUPS = {
     cs: {
-        label: '计算机/软件/数据',
-        keywords: ['计算机', '软件', '数据', '大数据', '网络', '信息', '信息工程', '信息管理', '物联网', '网络空间安全', '信息安全', '数字媒体技术'],
+        label: '计算机/软件/网络',
+        keywords: [
+            '计算机',
+            '软件',
+            '软件工程',
+            '网络工程',
+            '网络',
+            '物联网',
+            '数字媒体',
+            '数字媒体技术',
+            '区块链',
+            '云计算',
+            '信息对抗',
+            '空间信息',
+        ],
+    },
+    data: {
+        label: '数据/统计/信息与计算',
+        keywords: [
+            '数据科学',
+            '大数据',
+            '数据',
+            '统计',
+            '应用统计',
+            '信息与计算科学',
+            '数学与应用数学',
+            '计算数学',
+            '运筹',
+            '精算',
+            '信息管理与信息系统',
+        ],
     },
     ai: {
-        label: '人工智能/信息安全',
-        keywords: ['人工智能', '智能', '机器学习', '数据科学', '统计', '信息安全', '网络空间安全', '密码', '安全'],
+        label: '人工智能/智能科学',
+        keywords: [
+            '人工智能',
+            '智能科学与技术',
+            '机器学习',
+            '深度学习',
+        ],
+    },
+    sec: {
+        label: '网安/信息安全/密码',
+        keywords: [
+            '网络空间安全',
+            '信息安全',
+            '网络安全',
+            '密码',
+            '保密',
+        ],
     },
     ee: {
-        label: '电子信息/通信/自动化',
-        keywords: ['电子', '电子信息', '通信', '电气', '自动化', '控制', '测控', '集成电路', '微电子'],
+        label: '电子信息/通信/电气',
+        keywords: [
+            '电子信息',
+            '电子信息工程',
+            '通信',
+            '通信工程',
+            '电气',
+            '电气工程',
+            '电气工程及其自动化',
+            '电子科学与技术',
+            '光电',
+            '光电信息',
+            '信息工程',
+            '电子工程',
+        ],
+    },
+    ic: {
+        label: '集成电路/微电子/半导体',
+        keywords: [
+            '集成电路',
+            '微电子',
+            '微电子科学与工程',
+            '半导体',
+            '芯片',
+            '封装',
+            '电子封装',
+            '集成电路设计与集成系统',
+        ],
+    },
+    auto: {
+        label: '自动化/控制/机器人',
+        keywords: [
+            '自动化',
+            '控制',
+            '控制工程',
+            '机器人工程',
+            '机器人',
+            '测控',
+            '测控技术',
+            '导航',
+        ],
+    },
+    me: {
+        label: '机械/机电/智能制造',
+        keywords: [
+            '机械',
+            '机械工程',
+            '机械设计制造及其自动化',
+            '机械电子',
+            '机电',
+            '机电一体化',
+            '智能制造',
+            '工业工程',
+            '过程装备',
+        ],
+    },
+    vehicle: {
+        label: '车辆/交通/船舶',
+        keywords: [
+            '车辆',
+            '车辆工程',
+            '交通运输',
+            '交通工程',
+            '轨道交通',
+            '船舶',
+            '航海',
+            '海洋工程',
+        ],
+    },
+    aero: {
+        label: '航空航天/飞行器',
+        keywords: [
+            '航空',
+            '航天',
+            '航空航天',
+            '飞行器',
+            '飞行技术',
+            '空天',
+            '宇航',
+        ],
+    },
+    civil: {
+        label: '土木/建筑/城规/测绘',
+        keywords: [
+            '土木',
+            '土木工程',
+            '建筑',
+            '建筑学',
+            '城乡规划',
+            '城市规划',
+            '风景园林',
+            '给排水',
+            '道路桥梁',
+            '工程造价',
+            '工程管理',
+            '测绘',
+            '地理信息',
+            '智能建造',
+        ],
+    },
+    materials: {
+        label: '材料/冶金/高分子',
+        keywords: [
+            '材料',
+            '材料科学与工程',
+            '高分子',
+            '冶金',
+            '金属材料',
+            '无机非金属',
+            '复合材料',
+            '纳米',
+            '材料成型',
+            '焊接',
+        ],
+    },
+    chem: {
+        label: '化学/化工/制药工程',
+        keywords: [
+            '化学',
+            '应用化学',
+            '化工',
+            '化学工程',
+            '化学工程与工艺',
+            '制药工程',
+            '精细化工',
+        ],
+    },
+    bio: {
+        label: '生物/生科/生物工程',
+        keywords: [
+            '生物',
+            '生命科学',
+            '生物科学',
+            '生物工程',
+            '生物技术',
+            '生物制药',
+            '生物医学工程',
+        ],
+    },
+    med: {
+        label: '医学/临床/药学/护理',
+        keywords: [
+            '医学',
+            '临床',
+            '临床医学',
+            '口腔',
+            '口腔医学',
+            '护理',
+            '护理学',
+            '药学',
+            '中医学',
+            '公共卫生',
+            '预防医学',
+            '医学检验',
+            '医学影像',
+            '康复',
+            '麻醉',
+        ],
+    },
+    env: {
+        label: '环境/能源/新能源',
+        keywords: [
+            '环境',
+            '环境工程',
+            '环境科学',
+            '能源',
+            '新能源',
+            '储能',
+            '能源与动力工程',
+            '核工程',
+            '核技术',
+            '资源循环',
+            '资源环境',
+            '水利',
+            '水文',
+        ],
+    },
+    econ: {
+        label: '经济/金融/贸易',
+        keywords: [
+            '经济',
+            '经济学',
+            '金融',
+            '金融学',
+            '金融工程',
+            '财政',
+            '税收',
+            '国际经济与贸易',
+            '国际经济',
+            '贸易',
+            '保险',
+            '投资',
+        ],
+    },
+    acct: {
+        label: '会计/审计/财务',
+        keywords: [
+            '会计',
+            '会计学',
+            '审计',
+            '财务',
+            '财务管理',
+            '资产评估',
+        ],
+    },
+    biz: {
+        label: '管理/工商/市场',
+        keywords: [
+            '工商管理',
+            '管理科学与工程',
+            '市场营销',
+            '人力资源',
+            '行政管理',
+            '公共管理',
+            '物流',
+            '电子商务',
+            '旅游管理',
+            '酒店管理',
+        ],
+    },
+    law: {
+        label: '法学/公安/政治',
+        keywords: [
+            '法学',
+            '法律',
+            '知识产权',
+            '公安',
+            '侦查',
+            '政治',
+            '国际政治',
+            '外交',
+        ],
+    },
+    lang: {
+        label: '外语/翻译',
+        keywords: [
+            '外语',
+            '翻译',
+            '英语',
+            '商务英语',
+            '日语',
+            '俄语',
+            '法语',
+            '德语',
+            '西班牙语',
+            '葡萄牙语',
+            '韩语',
+        ],
+    },
+    media: {
+        label: '新闻传播/广告/新媒体',
+        keywords: [
+            '新闻',
+            '传播',
+            '新闻传播',
+            '广告',
+            '新媒体',
+            '网络与新媒体',
+            '广播电视',
+            '影视',
+            '播音',
+            '编导',
+            '传媒',
+        ],
+    },
+    edu: {
+        label: '教育/心理',
+        keywords: [
+            '教育',
+            '师范',
+            '学前教育',
+            '特殊教育',
+            '心理',
+            '心理学',
+            '应用心理',
+        ],
+    },
+    design: {
+        label: '艺术/设计/表演',
+        keywords: [
+            '艺术',
+            '设计',
+            '美术',
+            '视觉传达',
+            '工业设计',
+            '动画',
+            '数字媒体艺术',
+            '音乐',
+            '舞蹈',
+            '表演',
+            '戏剧',
+            '摄影',
+        ],
     },
 };
 
@@ -1359,6 +1694,45 @@ function extractFlexSignals(g, row) {
     return out;
 }
 
+function computeOpptyGroupMeta(rows) {
+    const rs = Array.isArray(rows) ? rows : [];
+    let score = null;
+    let bestGap = null;
+    let hasTransfer = false;
+    let hasNearmiss = false;
+
+    for (const row of rs) {
+        const t = String((row && row._opptyType) || '');
+        if (t === 'transfer') {
+            hasTransfer = true;
+            const m = (row && row._match) || {};
+            let s = 50_000;
+            if (m.status === 'pass') {
+                const fit = (typeof m.fit === 'number') ? m.fit : 0;
+                s = fit;
+            } else if (m.status === 'unknown') {
+                s = 500;
+            } else {
+                s = 5_000;
+            }
+            if (score === null || s < score) score = s;
+        } else if (t === 'nearmiss') {
+            hasNearmiss = true;
+            const gap = (typeof row._opptyGapMax === 'number') ? row._opptyGapMax : 99;
+            if (bestGap === null || gap < bestGap) bestGap = gap;
+            const s = 10_000 + gap * 100;
+            if (score === null || s < score) score = s;
+        }
+    }
+
+    return {
+        score: (typeof score === 'number') ? score : 9e15,
+        bestGap,
+        hasTransfer,
+        hasNearmiss,
+    };
+}
+
 function applyFiltersAndMatch() {
     const areaSet = selectedAreas;
     const tierSet = selectedTiers;
@@ -1576,6 +1950,7 @@ function applyFiltersAndMatch() {
         if (rows.length === 0) continue;
 
         const dt = parseDeadline(g.extraction.application_deadline);
+        const opptyMeta = opptyActive ? computeOpptyGroupMeta(rows) : null;
         const group = {
             ...g,
             rows: rows.slice(),
@@ -1583,6 +1958,10 @@ function applyFiltersAndMatch() {
             _bestFit: bestFit,
             _statusRank: scoreActive ? groupStatusRank : 0,
             _deadlineDate: dt,
+            _opptyScore: opptyMeta ? opptyMeta.score : null,
+            _opptyBestGap: opptyMeta ? opptyMeta.bestGap : null,
+            _opptyHasTransfer: opptyMeta ? opptyMeta.hasTransfer : false,
+            _opptyHasNearmiss: opptyMeta ? opptyMeta.hasNearmiss : false,
         };
 
         // sort rows within group
@@ -1617,6 +1996,26 @@ function applyFiltersAndMatch() {
         if (!a._scoreActive) {
             if (bTier !== aTier) return bTier - aTier;
             if (bConf !== aConf) return bConf - aConf;
+        } else if (opptyActive) {
+            // In opportunity mode, let the selected sort rule drive ordering.
+            const aScore = (typeof a._opptyScore === 'number') ? a._opptyScore : 9e15;
+            const bScore = (typeof b._opptyScore === 'number') ? b._opptyScore : 9e15;
+
+            if (sortBy === 'fit') {
+                if (aScore !== bScore) return aScore - bScore;
+                if (bTier !== aTier) return bTier - aTier;
+                if (bConf !== aConf) return bConf - aConf;
+            } else if (sortBy === 'tier') {
+                if (bTier !== aTier) return bTier - aTier;
+                if (aScore !== bScore) return aScore - bScore;
+                if (bConf !== aConf) return bConf - aConf;
+            } else if (sortBy === 'deadline') {
+                const ad = a._deadlineDate ? a._deadlineDate.getTime() : 9e15;
+                const bd = b._deadlineDate ? b._deadlineDate.getTime() : 9e15;
+                if (ad !== bd) return ad - bd;
+                if (aScore !== bScore) return aScore - bScore;
+                if (bTier !== aTier) return bTier - aTier;
+            }
         } else {
             if (b._statusRank !== a._statusRank) return b._statusRank - a._statusRank;
 

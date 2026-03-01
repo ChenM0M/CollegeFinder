@@ -38,7 +38,7 @@
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">CollegeFinder</h1>
                 <p class="text-gray-600 mt-1">提取结果汇总 / 按学测成绩筛选可报学校</p>
-                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-02-28-2</p>
+                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-03-01-1</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
                 <a href="/" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">返回工作台</a>
@@ -213,18 +213,102 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">目标科系大类（可复选）</label>
-                            <div id="oppty-targets" class="border rounded p-3 bg-white text-sm space-y-2">
+                            <div id="oppty-targets" class="border rounded p-3 bg-white text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 max-h-56 overflow-auto pr-1">
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="w-4 h-4 oppty-target" value="cs" checked>
-                                    <span>计算机/软件/数据</span>
+                                    <span>计算机/软件/网络</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="data">
+                                    <span>数据/统计/信息与计算</span>
                                 </label>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="w-4 h-4 oppty-target" value="ai">
-                                    <span>人工智能/信息安全</span>
+                                    <span>人工智能/智能科学</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="sec">
+                                    <span>网安/信息安全/密码</span>
                                 </label>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="w-4 h-4 oppty-target" value="ee">
-                                    <span>电子信息/通信/自动化</span>
+                                    <span>电子信息/通信/电气</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="ic">
+                                    <span>集成电路/微电子/半导体</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="auto">
+                                    <span>自动化/控制/机器人</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="me">
+                                    <span>机械/机电/智能制造</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="vehicle">
+                                    <span>车辆/交通/船舶</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="aero">
+                                    <span>航空航天/飞行器</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="civil">
+                                    <span>土木/建筑/城规/测绘</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="materials">
+                                    <span>材料/冶金/高分子</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="chem">
+                                    <span>化学/化工/制药工程</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="bio">
+                                    <span>生物/生科/生物工程</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="med">
+                                    <span>医学/临床/药学/护理</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="env">
+                                    <span>环境/能源/新能源</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="econ">
+                                    <span>经济/金融/贸易</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="acct">
+                                    <span>会计/审计/财务</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="biz">
+                                    <span>管理/工商/市场</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="law">
+                                    <span>法学/公安/政治</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="lang">
+                                    <span>外语/翻译</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="media">
+                                    <span>新闻传播/广告/新媒体</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="edu">
+                                    <span>教育/心理</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="design">
+                                    <span>艺术/设计/表演</span>
                                 </label>
                             </div>
                             <input id="oppty-keywords" type="text" class="mt-2 w-full border rounded px-3 py-2 text-sm" placeholder="可选：自定义关键词（空格分隔），例如：游戏 开发 引擎">
@@ -314,7 +398,7 @@
         </div>
     </div>
 
-    <script src="summary.js?v=20260228-2"></script>
+    <script src="summary.js?v=20260301-1"></script>
 </body>
 
 </html>
