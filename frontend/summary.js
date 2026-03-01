@@ -1,5 +1,5 @@
 // CollegeFinder Summary Page
-const UI_VERSION = '2026-02-27-1';
+const UI_VERSION = '2026-02-28-2';
 let API_BASE = '/api';
 
 const SUBJECTS = [
@@ -56,6 +56,7 @@ const CHOICE_WORDS = [
 
 const STORAGE_KEY_SCORES = 'collegefinder.summary.user_scores.v1';
 const STORAGE_KEY_SELECTED_MAJORS = 'collegefinder.summary.selected_majors.v1';
+const STORAGE_KEY_OPPTY = 'collegefinder.summary.oppty_settings.v1';
 
 function noCacheUrl(url) {
     const sep = url.includes('?') ? '&' : '?';
@@ -472,6 +473,14 @@ const elements = {
     filterTaiwan: document.getElementById('filter-taiwan'),
     filterConfidence: document.getElementById('filter-confidence'),
     filterSearch: document.getElementById('filter-search'),
+    opptyEnabled: document.getElementById('oppty-enabled'),
+    opptyPanel: document.getElementById('oppty-panel'),
+    opptyModeTransfer: document.getElementById('oppty-mode-transfer'),
+    opptyModeNearmiss: document.getElementById('oppty-mode-nearmiss'),
+    opptyTargets: document.getElementById('oppty-targets'),
+    opptyKeywords: document.getElementById('oppty-keywords'),
+    opptyGap: document.getElementById('oppty-gap'),
+    opptyHotzones: document.getElementById('oppty-hotzones'),
     rowCount: document.getElementById('row-count'),
     dataMeta: document.getElementById('data-meta'),
     tableBody: document.getElementById('summary-table-body'),
@@ -495,6 +504,8 @@ let majorLabelCache = new Map(); // norm -> display label
 
 let lastMajorAvailable = [];
 let lastMajorNoteText = '';
+
+let opptyOnlyEligibleSnapshot = null;
 
 let renderRaf = null;
 
@@ -603,6 +614,90 @@ function clearSelectedMajorsStorage() {
         localStorage.removeItem(STORAGE_KEY_SELECTED_MAJORS);
     } catch (e) {
         // ignore
+    }
+}
+
+function getOpptySettingsFromUI() {
+    const enabled = !!(elements.opptyEnabled && elements.opptyEnabled.checked);
+    const modeTransfer = !!(elements.opptyModeTransfer && elements.opptyModeTransfer.checked);
+    const modeNearmiss = !!(elements.opptyModeNearmiss && elements.opptyModeNearmiss.checked);
+    const gapLimit = Number(elements.opptyGap ? elements.opptyGap.value : 1) || 1;
+
+    const targetIds = [];
+    if (elements.opptyTargets) {
+        elements.opptyTargets.querySelectorAll('input.oppty-target[type="checkbox"][value]').forEach(cb => {
+            if (cb.checked) targetIds.push(String(cb.value || ''));
+        });
+    }
+
+    const hotAreas = [];
+    if (elements.opptyHotzones) {
+        elements.opptyHotzones.querySelectorAll('input[type="checkbox"][value]').forEach(cb => {
+            if (cb.checked) hotAreas.push(String(cb.value || ''));
+        });
+    }
+
+    const keywordText = elements.opptyKeywords ? String(elements.opptyKeywords.value || '') : '';
+
+    return { enabled, modeTransfer, modeNearmiss, gapLimit, targetIds, hotAreas, keywordText };
+}
+
+function saveOpptySettingsToStorage() {
+    try {
+        const s = getOpptySettingsFromUI();
+        localStorage.setItem(STORAGE_KEY_OPPTY, JSON.stringify(s));
+    } catch (e) {
+        // ignore
+    }
+}
+
+function loadOpptySettingsFromStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_OPPTY);
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        return obj && typeof obj === 'object' ? obj : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function applyOpptySettingsToUI(settings) {
+    const s = settings && typeof settings === 'object' ? settings : null;
+    if (!s) return;
+
+    if (elements.opptyEnabled && typeof s.enabled === 'boolean') {
+        elements.opptyEnabled.checked = s.enabled;
+    }
+    if (elements.opptyModeTransfer && typeof s.modeTransfer === 'boolean') {
+        elements.opptyModeTransfer.checked = s.modeTransfer;
+    }
+    if (elements.opptyModeNearmiss && typeof s.modeNearmiss === 'boolean') {
+        elements.opptyModeNearmiss.checked = s.modeNearmiss;
+    }
+    if (elements.opptyGap && (s.gapLimit === 1 || s.gapLimit === 2 || s.gapLimit === 3 || s.gapLimit === '1' || s.gapLimit === '2' || s.gapLimit === '3')) {
+        elements.opptyGap.value = String(s.gapLimit);
+    }
+    if (elements.opptyKeywords && typeof s.keywordText === 'string') {
+        elements.opptyKeywords.value = s.keywordText;
+    }
+
+    if (elements.opptyTargets && Array.isArray(s.targetIds)) {
+        const set = new Set(s.targetIds.map(x => String(x || '')));
+        elements.opptyTargets.querySelectorAll('input.oppty-target[type="checkbox"][value]').forEach(cb => {
+            const v = String(cb.value || '');
+            if (!v) return;
+            cb.checked = set.has(v);
+        });
+    }
+
+    if (elements.opptyHotzones && Array.isArray(s.hotAreas)) {
+        const set = new Set(s.hotAreas.map(x => String(x || '')));
+        elements.opptyHotzones.querySelectorAll('input[type="checkbox"][value]').forEach(cb => {
+            const v = String(cb.value || '');
+            if (!v) return;
+            cb.checked = set.has(v);
+        });
     }
 }
 
@@ -1025,6 +1120,245 @@ function recountStats(groups, scoreActive) {
     return { totalRows, statPass, statUnknown, statFail };
 }
 
+// Opportunity mode (built on existing table)
+const OPPTY_TARGET_GROUPS = {
+    cs: {
+        label: '计算机/软件/数据',
+        keywords: ['计算机', '软件', '数据', '大数据', '网络', '信息', '信息工程', '信息管理', '物联网', '网络空间安全', '信息安全', '数字媒体技术'],
+    },
+    ai: {
+        label: '人工智能/信息安全',
+        keywords: ['人工智能', '智能', '机器学习', '数据科学', '统计', '信息安全', '网络空间安全', '密码', '安全'],
+    },
+    ee: {
+        label: '电子信息/通信/自动化',
+        keywords: ['电子', '电子信息', '通信', '电气', '自动化', '控制', '测控', '集成电路', '微电子'],
+    },
+};
+
+function parseOpptyCustomKeywords(text) {
+    const s = String(text || '').trim();
+    if (!s) return [];
+    const parts = s.split(/\s+/g).map(x => x.trim()).filter(Boolean);
+    const out = [];
+    const seen = new Set();
+    parts.forEach(p => {
+        const k = p.replace(/[，,;；/\\|｜]+/g, '').trim();
+        if (!k) return;
+        const kk = k.toLowerCase();
+        if (seen.has(kk)) return;
+        seen.add(kk);
+        out.push(k);
+    });
+    return out;
+}
+
+function buildOpptySettings() {
+    const ui = getOpptySettingsFromUI();
+    if (!ui.enabled) return { enabled: false };
+
+    const targetIds = Array.isArray(ui.targetIds) ? ui.targetIds : [];
+    const keywords = [];
+    targetIds.forEach(id => {
+        const g = OPPTY_TARGET_GROUPS[String(id || '')];
+        if (g && Array.isArray(g.keywords)) keywords.push(...g.keywords);
+    });
+    keywords.push(...parseOpptyCustomKeywords(ui.keywordText));
+
+    const uniq = Array.from(new Set(keywords.map(x => String(x || '').trim()).filter(Boolean)));
+    const hotAreas = new Set((ui.hotAreas || []).map(x => String(x || '').trim()).filter(Boolean));
+
+    return {
+        enabled: true,
+        modeTransfer: !!ui.modeTransfer,
+        modeNearmiss: !!ui.modeNearmiss,
+        gapLimit: Math.max(1, Math.min(3, Number(ui.gapLimit || 1) || 1)),
+        keywords: uniq,
+        hotAreas,
+        targetIds,
+    };
+}
+
+function matchesKeywords(text, keywords) {
+    const t = String(text || '');
+    if (!t) return false;
+    const low = t.toLowerCase();
+    return (keywords || []).some(k => {
+        const kk = String(k || '').trim();
+        if (!kk) return false;
+        if (/^[a-z0-9+_.-]+$/i.test(kk)) return low.includes(kk.toLowerCase());
+        return t.includes(kk);
+    });
+}
+
+function schoolHitsTarget(g, keywords) {
+    const majors = collectMajorsForSchool(g);
+    if (majors.some(m => matchesKeywords(m, keywords))) return true;
+    // fallback: dept names
+    return (g.rows || []).some(r => matchesKeywords(r.deptName, keywords));
+}
+
+function classifyRowTrack(row, g) {
+    const name = String((row && row.deptName) || '');
+    const notes = String((row && row.deptNotes) || '');
+    const majors = collectMajorsForRow(g, row).join('、');
+    const text = (name + ' ' + majors + ' ' + notes).replace(/\s+/g, '');
+
+    const mixed = ['文理兼', '兼收', '兼招', '文理兼收', '文理兼招', '普通类', '普通類'];
+    if (mixed.some(x => text.includes(x))) return 'mixed';
+
+    const arts = ['文史', '文科', '经管', '經管', '管理', '经济', '經濟', '外语', '外語', '法学', '文学', '文學', '历史', '歷史', '哲学', '哲學', '教育', '新闻', '新聞', '传播', '傳播', '社会', '社會', '汉语言', '漢語', '英语', '英語', '日语', '日語', '会计', '會計', '金融'];
+    const sci = ['理工', '理科', '工科', '计算机', '計算機', '软件', '數據', '数据', '人工智能', '信息', '電子', '电子', '通信', '自動化', '自动化', '机械', '材料', '土木', '电气', '電氣', '数学', '數學', '物理', '化学', '生物', '医学', '药学', '工程', '技術', '技术'];
+
+    const a = arts.some(x => text.includes(x));
+    const s = sci.some(x => text.includes(x));
+    if (a && s) return 'mixed';
+    if (s) return 'science';
+    if (a) return 'arts';
+
+    // requirement fallback
+    const reqs = (row && row.reqs) || {};
+    const hasSci = reqs.science && reqs.science.standard;
+    const hasSoc = reqs.social && reqs.social.standard;
+    if (hasSci && !hasSoc) return 'science';
+    if (hasSoc && !hasSci) return 'arts';
+    if (hasSci && hasSoc) return 'mixed';
+
+    return 'unknown';
+}
+
+function buildChoiceGroupsForGap(reqs, choiceGroups) {
+    const requirements = reqs || {};
+    const groups = Array.isArray(choiceGroups) ? choiceGroups.slice() : [];
+
+    const ma = requirements.math_a;
+    const mb = requirements.math_b;
+    const maP = ma && ma.standard ? parseStandard(ma.standard) : { rank: null, any: false, base: '' };
+    const mbP = mb && mb.standard ? parseStandard(mb.standard) : { rank: null, any: false, base: '' };
+    const hasMathPair = maP.rank && mbP.rank && maP.rank === mbP.rank && maP.base === mbP.base;
+    if (hasMathPair) {
+        const alreadyGrouped = groups.some(g => Array.isArray(g) && g.includes('math_a') && g.includes('math_b'));
+        if (!alreadyGrouped) groups.push(['math_a', 'math_b']);
+    }
+
+    return groups;
+}
+
+function evaluateRowGap(reqs, userScores, choiceGroups) {
+    const requirements = reqs || {};
+    const user = userScores || {};
+
+    if (!hasAnyRequirements(requirements)) {
+        return { status: 'unknown', maxDeficit: null, details: [], reason: '无科目要求' };
+    }
+    for (const { key } of SUBJECTS) {
+        const r = requirements[key];
+        if (r && r.min_score) {
+            return { status: 'unknown', maxDeficit: null, details: [], reason: '包含级分要求（需核对）' };
+        }
+    }
+
+    const groups = buildChoiceGroupsForGap(requirements, choiceGroups);
+    const consumed = new Set();
+    const details = [];
+
+    // OR groups: take best option
+    for (const g of groups) {
+        if (!Array.isArray(g) || g.length === 0) continue;
+        const targets = g.filter(k => requirements[k] && !isReqEmpty(requirements[k]));
+        if (!targets.length) continue;
+
+        let best = null;
+        for (const k of targets) {
+            const rr = standardRank(requirements[k].standard);
+            if (!rr) continue;
+            const ur = standardRank(user[k]);
+            if (!ur) continue;
+            const deficit = ur >= rr ? 0 : (rr - ur);
+            if (!best || deficit < best.deficit) {
+                best = { key: k, required: rr, user: ur, deficit, keys: targets.slice() };
+            }
+        }
+
+        if (!best) {
+            return { status: 'unknown', maxDeficit: null, details: [], reason: '缺少可判定成绩' };
+        }
+
+        targets.forEach(k => consumed.add(k));
+        if (best.deficit > 0) {
+            details.push({ type: 'or', ...best });
+        }
+    }
+
+    // AND conditions
+    for (const { key } of SUBJECTS) {
+        if (consumed.has(key)) continue;
+        const r = requirements[key];
+        if (!r || isReqEmpty(r)) continue;
+        const rr = standardRank(r.standard);
+        if (!rr) continue;
+        const ur = standardRank(user[key]);
+        if (!ur) {
+            return { status: 'unknown', maxDeficit: null, details: [], reason: `缺少${key}成绩` };
+        }
+        const deficit = ur >= rr ? 0 : (rr - ur);
+        if (deficit > 0) {
+            details.push({ type: 'and', key, required: rr, user: ur, deficit });
+        }
+    }
+
+    if (!details.length) {
+        return { status: 'pass', maxDeficit: 0, details: [], reason: null };
+    }
+
+    const maxDeficit = Math.max(...details.map(d => Number(d.deficit || 0)));
+    return { status: 'fail', maxDeficit, details, reason: null };
+}
+
+function stdFromRank(rank) {
+    const r = Number(rank || 0);
+    if (r === 1) return '底标';
+    if (r === 2) return '后标';
+    if (r === 3) return '均标';
+    if (r === 4) return '前标';
+    if (r === 5) return '顶标';
+    return '';
+}
+
+function formatGapDetails(gap) {
+    if (!gap || gap.status !== 'fail' || !Array.isArray(gap.details)) return '';
+    const parts = [];
+    gap.details.forEach(d => {
+        if (!d || !d.key) return;
+        const subj = SUBJECTS.find(x => x.key === d.key);
+        const label = subj ? subj.label : d.key;
+        const req = stdFromRank(d.required);
+        const usr = stdFromRank(d.user);
+        if (req && usr) {
+            const tag = d.type === 'or' ? '择一' : '';
+            parts.push(`${label}${tag}差${d.deficit}（${usr}→${req}）`);
+        }
+    });
+    return parts.join('；');
+}
+
+function extractFlexSignals(g, row) {
+    const ext = (g && g.extraction) || {};
+    const parts = [];
+    if (ext.notes) parts.push(String(ext.notes));
+    if (Array.isArray(ext.other_conditions)) parts.push(ext.other_conditions.join(' '));
+    if (row && row.deptNotes) parts.push(String(row.deptNotes));
+    if (row && row.otherText) parts.push(String(row.otherText));
+    const text = parts.join(' ').replace(/\s+/g, '');
+
+    const out = [];
+    if (/资料审核|材料审核|资料审查|材料审查|资格审核|资格審核/.test(text)) out.push('资料审核');
+    if (/面试|面試|面談|远程面试|線上面試|线上面试/.test(text)) out.push('面试');
+    if (/择优|擇優|综合素质|綜合素質|综合评定|綜合評定/.test(text)) out.push('择优');
+    if (/作品集|portfolio|项目|專案|竞赛|競賽/.test(text)) out.push('作品/项目');
+    return out;
+}
+
 function applyFiltersAndMatch() {
     const areaSet = selectedAreas;
     const tierSet = selectedTiers;
@@ -1038,6 +1372,21 @@ function applyFiltersAndMatch() {
 
     const onlyEligible = !!elements.chkOnlyEligible.checked;
     const includeUnknown = !!elements.chkIncludeUnknown.checked;
+
+    const oppty = buildOpptySettings();
+    const opptyActive = !!(
+        oppty.enabled &&
+        scoreActive &&
+        Array.isArray(oppty.keywords) &&
+        oppty.keywords.length > 0 &&
+        (oppty.modeTransfer || oppty.modeNearmiss)
+    );
+    let opptyReason = '';
+    let opptyTransferSchools = 0;
+    let opptyNearmissSchools = 0;
+    if (oppty.enabled && !scoreActive) opptyReason = '请先填写学测成绩（标准）后再使用机会探索';
+    if (oppty.enabled && scoreActive && (!oppty.modeTransfer && !oppty.modeNearmiss)) opptyReason = '请选择至少一种机会类型';
+    if (oppty.enabled && scoreActive && (!oppty.keywords || oppty.keywords.length === 0)) opptyReason = '请选择目标科系大类或填写关键词';
 
     const filtered = [];
     let statPass = 0;
@@ -1063,37 +1412,164 @@ function applyFiltersAndMatch() {
         let bestFit = null;
         let groupStatusRank = 0;
 
-        for (const row of g.rows) {
+        const allRows = Array.isArray(g.rows) ? g.rows : [];
+        for (const row of allRows) {
+            // clear old markers
+            delete row._opptyType;
+            delete row._opptyGapText;
+            delete row._opptyGapMax;
+            delete row._opptySignals;
+
             let match = { status: 'n/a', fit: null, reason: null };
             if (scoreActive) {
                 match = evaluateRow(row.reqs, userScores, row.choiceGroups, { includeUnknown });
             }
-
             row._match = match;
+        }
 
-            if (!scoreActive) {
-                rows.push(row);
-                continue;
-            }
+        if (!scoreActive || !opptyActive) {
+            // normal behavior
+            for (const row of allRows) {
+                const match = row._match || { status: 'n/a', fit: null, reason: null };
 
-            if (match.status === 'pass') {
-                statPass += 1;
-                if (bestFit === null || (typeof match.fit === 'number' && match.fit < bestFit)) bestFit = match.fit;
-                groupStatusRank = Math.max(groupStatusRank, 3);
-            } else if (match.status === 'unknown') {
-                statUnknown += 1;
-                groupStatusRank = Math.max(groupStatusRank, 2);
-            } else {
-                statFail += 1;
-                groupStatusRank = Math.max(groupStatusRank, 1);
-            }
+                if (scoreActive) {
+                    if (match.status === 'pass') {
+                        statPass += 1;
+                        if (bestFit === null || (typeof match.fit === 'number' && match.fit < bestFit)) bestFit = match.fit;
+                        groupStatusRank = Math.max(groupStatusRank, 3);
+                    } else if (match.status === 'unknown') {
+                        statUnknown += 1;
+                        groupStatusRank = Math.max(groupStatusRank, 2);
+                    } else {
+                        statFail += 1;
+                        groupStatusRank = Math.max(groupStatusRank, 1);
+                    }
+                }
 
-            if (onlyEligible) {
-                if (match.status === 'pass' || (includeUnknown && match.status === 'unknown')) {
+                if (!scoreActive) {
+                    rows.push(row);
+                    continue;
+                }
+
+                if (onlyEligible) {
+                    if (match.status === 'pass' || (includeUnknown && match.status === 'unknown')) {
+                        rows.push(row);
+                    }
+                } else {
                     rows.push(row);
                 }
-            } else {
-                rows.push(row);
+            }
+        } else {
+            // opportunity behavior
+            const keywords = oppty.keywords || [];
+            if (!schoolHitsTarget(g, keywords)) continue;
+
+            let transferRow = null;
+            let nearRow = null;
+
+            const directSciencePass = allRows.some(r => {
+                const m = r._match || {};
+                if (m.status !== 'pass') return false;
+                const track = classifyRowTrack(r, g);
+                if (track === 'science') return true;
+                const rowMaj = collectMajorsForRow(g, r);
+                return matchesKeywords(r.deptName, keywords) || rowMaj.some(x => matchesKeywords(x, keywords));
+            });
+
+            if (oppty.modeTransfer && !directSciencePass) {
+                const candidates = [];
+                for (const r of allRows) {
+                    const m = r._match || {};
+                    if (m.status !== 'pass' && !(includeUnknown && m.status === 'unknown')) continue;
+                    const track = classifyRowTrack(r, g);
+                    if (track === 'science') continue;
+                    candidates.push({ r, m, track });
+                }
+
+                if (candidates.length) {
+                    candidates.sort((a, b) => {
+                        const as = a.m.status === 'pass' ? 2 : 1;
+                        const bs = b.m.status === 'pass' ? 2 : 1;
+                        if (bs !== as) return bs - as;
+                        const af = (typeof a.m.fit === 'number') ? a.m.fit : -1;
+                        const bf = (typeof b.m.fit === 'number') ? b.m.fit : -1;
+                        return bf - af;
+                    });
+
+                    transferRow = candidates[0].r;
+                    transferRow._opptyType = 'transfer';
+                    transferRow._opptySignals = extractFlexSignals(g, transferRow);
+                }
+            }
+
+            if (oppty.modeNearmiss) {
+                const hotOk = !oppty.hotAreas || oppty.hotAreas.size === 0 || oppty.hotAreas.has(g.area);
+                if (hotOk) {
+                    const candidates = [];
+                    for (const r of allRows) {
+                        const m = r._match || {};
+                        if (m.status !== 'fail') continue;
+                        const track = classifyRowTrack(r, g);
+                        const rowMaj = collectMajorsForRow(g, r);
+                        const rowHit = (track === 'science') || matchesKeywords(r.deptName, keywords) || rowMaj.some(x => matchesKeywords(x, keywords));
+                        if (!rowHit) continue;
+
+                        const gap = evaluateRowGap(r.reqs, userScores, r.choiceGroups);
+                        if (gap.status !== 'fail' || typeof gap.maxDeficit !== 'number') continue;
+                        // "Near-miss" = at most one subject (or one OR-group) short
+                        if (Array.isArray(gap.details) && gap.details.length > 1) continue;
+                        if (gap.maxDeficit > oppty.gapLimit) continue;
+
+                        candidates.push({
+                            r,
+                            gap,
+                            gapText: formatGapDetails(gap),
+                            signals: extractFlexSignals(g, r),
+                        });
+                    }
+
+                    if (candidates.length) {
+                        candidates.sort((a, b) => {
+                            if (a.gap.maxDeficit !== b.gap.maxDeficit) return a.gap.maxDeficit - b.gap.maxDeficit;
+                            const al = String(a.gapText || '').length;
+                            const bl = String(b.gapText || '').length;
+                            if (al !== bl) return al - bl;
+                            return String(a.r.deptName || '').localeCompare(String(b.r.deptName || ''));
+                        });
+
+                        const best = candidates[0];
+                        nearRow = best.r;
+                        nearRow._opptyType = 'nearmiss';
+                        nearRow._opptyGapText = best.gapText;
+                        nearRow._opptyGapMax = best.gap.maxDeficit;
+                        nearRow._opptySignals = best.signals;
+                    }
+                }
+            }
+
+            if (transferRow) {
+                rows.push(transferRow);
+                opptyTransferSchools += 1;
+            }
+            if (nearRow && nearRow !== transferRow) {
+                rows.push(nearRow);
+                opptyNearmissSchools += 1;
+            }
+
+            // recompute stats in opportunity mode based on selected rows
+            for (const row of rows) {
+                const match = row._match || {};
+                if (match.status === 'pass') {
+                    statPass += 1;
+                    if (bestFit === null || (typeof match.fit === 'number' && match.fit < bestFit)) bestFit = match.fit;
+                    groupStatusRank = Math.max(groupStatusRank, 3);
+                } else if (match.status === 'unknown') {
+                    statUnknown += 1;
+                    groupStatusRank = Math.max(groupStatusRank, 2);
+                } else {
+                    statFail += 1;
+                    groupStatusRank = Math.max(groupStatusRank, 1);
+                }
             }
         }
 
@@ -1179,10 +1655,22 @@ function applyFiltersAndMatch() {
         statPass,
         statUnknown,
         statFail,
+        oppty: {
+            enabled: !!oppty.enabled,
+            active: !!opptyActive,
+            reason: opptyReason,
+            transferSchools: opptyTransferSchools,
+            nearmissSchools: opptyNearmissSchools,
+            gapLimit: oppty.enabled ? (oppty.gapLimit || 1) : null,
+            keywordsCount: oppty.enabled ? (oppty.keywords ? oppty.keywords.length : 0) : 0,
+            hotAreas: oppty.enabled && oppty.hotAreas ? Array.from(oppty.hotAreas) : [],
+        },
     };
 }
 
 function render() {
+    // keep opportunity UI consistent with current scores/modes
+    applyOpptyUiState();
     const base = applyFiltersAndMatch();
 
     // majors section should reflect current filters (before major selection)
@@ -1209,7 +1697,26 @@ function render() {
     lastMajorNoteText = majorNote;
     renderMajorChips(lastMajorAvailable, majorNote);
 
-    if (!base.scoreActive) {
+    const opptyInfo = base.oppty || { enabled: false, active: false, reason: '' };
+    const opptyEnabled = !!opptyInfo.enabled;
+    const opptyActive = !!opptyInfo.active;
+
+    let opptyTransferCount = 0;
+    let opptyNearCount = 0;
+    if (opptyEnabled) {
+        for (const g of groups) {
+            const types = new Set((g.rows || []).map(r => r && r._opptyType).filter(Boolean));
+            if (types.has('transfer')) opptyTransferCount += 1;
+            if (types.has('nearmiss')) opptyNearCount += 1;
+        }
+    }
+
+    if (opptyEnabled && opptyActive) {
+        elements.matchStats.textContent = `机会探索结果（当前筛选范围内）：转系候选 ${opptyTransferCount} 所 / 冲刺候选 ${opptyNearCount} 所；表格行数 ${stats.totalRows} 行。`;
+    } else if (opptyEnabled && !opptyActive) {
+        const why = opptyInfo.reason ? `（${opptyInfo.reason}）` : '';
+        elements.matchStats.textContent = `机会探索已开启但未生效${why}；当前仍显示普通筛选结果。`;
+    } else if (!base.scoreActive) {
         elements.matchStats.textContent = `已提取学校: ${groups.length} 所；表格行数（含分专业）: ${stats.totalRows} 行。填写成绩后可筛选可报学校。`;
     } else {
         elements.matchStats.textContent = `匹配结果（当前筛选范围内）：可报 ${stats.statPass} 行 / 需核对 ${stats.statUnknown} 行 / 不符合 ${stats.statFail} 行。`;
@@ -1289,13 +1796,40 @@ function render() {
                 `;
             }
 
+            const opType = String(row._opptyType || '');
+            let opBadge = '';
+            if (opType === 'transfer') {
+                opBadge = ' <span class="inline-block px-2 py-0.5 text-xs rounded bg-indigo-100 text-indigo-800 ml-2">转系入口</span>';
+            } else if (opType === 'nearmiss') {
+                const n = (typeof row._opptyGapMax === 'number') ? row._opptyGapMax : null;
+                opBadge = ` <span class="inline-block px-2 py-0.5 text-xs rounded bg-rose-100 text-rose-800 ml-2">冲刺${n ? ('差' + n) : ''}</span>`;
+            }
+
+            const opSubParts = [];
+            if (opType === 'nearmiss' && row._opptyGapText) {
+                opSubParts.push(`差距: ${row._opptyGapText}`);
+            }
+            if (Array.isArray(row._opptySignals) && row._opptySignals.length) {
+                opSubParts.push(`可咨询: ${row._opptySignals.slice(0, 2).join('、')}`);
+            }
+            const opSub = opSubParts.length
+                ? `<div class="text-xs text-gray-500 mt-1">${escapeHtml(opSubParts.join(' · '))}</div>`
+                : '';
+
+            const deptCellHtml = `
+                <td class="px-3 py-2 border-b text-center text-sm text-gray-700">
+                    <div>${escapeHtml(row.deptName || '')}${opBadge}</div>
+                    ${opSub}
+                </td>
+            `;
+
             const other = String(row.otherText || '');
             const otherShort = other.length > 120 ? other.slice(0, 120) + '…' : other;
 
             html += `
                 <tr class="${rowClass} cursor-pointer" data-row-key="${escapeHtml(rowKey)}">
                     ${schoolCells}
-                    <td class="px-3 py-2 border-b text-center text-sm text-gray-700">${escapeHtml(row.deptName || '')}</td>
+                    ${deptCellHtml}
                     <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.chinese))}</td>
                     <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.english))}</td>
                     <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.math_a))}</td>
@@ -1500,6 +2034,65 @@ if (elements.btnClearMajors) {
     });
 }
 
+function applyOpptyUiState() {
+    if (!elements.opptyEnabled || !elements.opptyPanel || !elements.chkOnlyEligible) return;
+    const on = !!elements.opptyEnabled.checked;
+    elements.opptyPanel.classList.toggle('hidden', !on);
+
+    if (on) {
+        if (opptyOnlyEligibleSnapshot === null) {
+            opptyOnlyEligibleSnapshot = !!elements.chkOnlyEligible.checked;
+        }
+        // opportunity mode may include "fail" (near-miss), disable this switch to avoid confusion
+        elements.chkOnlyEligible.checked = false;
+        elements.chkOnlyEligible.disabled = true;
+    } else {
+        elements.chkOnlyEligible.disabled = false;
+        if (opptyOnlyEligibleSnapshot !== null) {
+            elements.chkOnlyEligible.checked = !!opptyOnlyEligibleSnapshot;
+        }
+        opptyOnlyEligibleSnapshot = null;
+    }
+}
+
+// Opportunity mode events
+if (elements.opptyEnabled) {
+    elements.opptyEnabled.addEventListener('change', () => {
+        applyOpptyUiState();
+        saveOpptySettingsToStorage();
+        scheduleRender();
+    });
+}
+
+[elements.opptyModeTransfer, elements.opptyModeNearmiss, elements.opptyGap].forEach(el => {
+    if (!el) return;
+    el.addEventListener('change', () => {
+        saveOpptySettingsToStorage();
+        scheduleRender();
+    });
+});
+
+if (elements.opptyTargets) {
+    elements.opptyTargets.addEventListener('change', () => {
+        saveOpptySettingsToStorage();
+        scheduleRender();
+    });
+}
+
+if (elements.opptyHotzones) {
+    elements.opptyHotzones.addEventListener('change', () => {
+        saveOpptySettingsToStorage();
+        scheduleRender();
+    });
+}
+
+if (elements.opptyKeywords) {
+    elements.opptyKeywords.addEventListener('input', () => {
+        saveOpptySettingsToStorage();
+        scheduleRender();
+    });
+}
+
 // Filters & score changes
 [
     elements.filterTaiwan,
@@ -1660,6 +2253,8 @@ window.addEventListener('keydown', (e) => {
     }
     loadUserScoresFromStorage();
     loadSelectedMajorsFromStorage();
+    applyOpptySettingsToUI(loadOpptySettingsFromStorage());
+    applyOpptyUiState();
     initTierFilterOptions();
     API_BASE = await detectApiBase();
     await fetchAllResults();

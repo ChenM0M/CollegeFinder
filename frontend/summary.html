@@ -38,7 +38,7 @@
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">CollegeFinder</h1>
                 <p class="text-gray-600 mt-1">提取结果汇总 / 按学测成绩筛选可报学校</p>
-                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-02-27-1</p>
+                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-02-28-2</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
                 <a href="/" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">返回工作台</a>
@@ -187,6 +187,81 @@
                     <input id="filter-search" type="text" class="w-full border rounded px-3 py-2" placeholder="学校名称/适用类别/专业...">
                 </div>
             </div>
+
+            <div class="mt-5 pt-4 border-t">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="oppty-enabled" class="w-4 h-4">
+                    <span class="text-sm font-medium text-gray-800">机会探索（转系 / 冲刺 / 热区）</span>
+                    <span class="text-xs text-gray-500">在当前筛选范围内，额外筛出“文科入口→转理工”与“差一点可冲刺”的机会</span>
+                </label>
+
+                <div id="oppty-panel" class="mt-3 hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">机会类型（可复选）</label>
+                            <div class="border rounded p-3 bg-white text-sm space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" id="oppty-mode-transfer" class="w-4 h-4" checked>
+                                    <span>转系：先用文科/兼收入口进校</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" id="oppty-mode-nearmiss" class="w-4 h-4" checked>
+                                    <span>冲刺：当前差一点（按阈值）</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">目标科系大类（可复选）</label>
+                            <div id="oppty-targets" class="border rounded p-3 bg-white text-sm space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="cs" checked>
+                                    <span>计算机/软件/数据</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="ai">
+                                    <span>人工智能/信息安全</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4 oppty-target" value="ee">
+                                    <span>电子信息/通信/自动化</span>
+                                </label>
+                            </div>
+                            <input id="oppty-keywords" type="text" class="mt-2 w-full border rounded px-3 py-2 text-sm" placeholder="可选：自定义关键词（空格分隔），例如：游戏 开发 引擎">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">接近阈值（用于冲刺；最多 1 科未达）</label>
+                            <select id="oppty-gap" class="w-full border rounded px-3 py-2">
+                                <option value="1" selected>最多差 1 标（例如：均标→前标）</option>
+                                <option value="2">最多差 2 标</option>
+                                <option value="3">最多差 3 标</option>
+                            </select>
+
+                            <label class="block text-sm font-medium text-gray-700 mb-1 mt-3">热区（用于冲刺）</label>
+                            <div id="oppty-hotzones" class="border rounded p-3 bg-white text-sm space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4" value="浙江" checked>
+                                    <span>杭州/浙江</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4" value="上海" checked>
+                                    <span>上海</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4" value="广东" checked>
+                                    <span>深圳/广东</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4" value="江苏" checked>
+                                    <span>苏州/江苏</span>
+                                </label>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-2">说明：热区按省级近似（浙江≈杭州、广东≈深圳、江苏≈苏州）。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="bg-white rounded-lg shadow">
@@ -239,7 +314,7 @@
         </div>
     </div>
 
-    <script src="summary.js?v=20260227-1"></script>
+    <script src="summary.js?v=20260228-2"></script>
 </body>
 
 </html>
