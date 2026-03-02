@@ -1187,7 +1187,8 @@ async function init() {
 
     if (elements.loadIndicator) elements.loadIndicator.classList.remove('hidden');
     try {
-        const resp = await fetch('./tw_star_apply_dataset.json', { cache: 'no-store' });
+        // Use absolute path so /star (no trailing slash) also works on Vercel rewrites.
+        const resp = await fetch('/star/tw_star_apply_dataset.json', { cache: 'no-store' });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         DATASET = await resp.json();
     } catch (e) {
