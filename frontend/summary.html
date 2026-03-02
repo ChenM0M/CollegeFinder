@@ -33,12 +33,12 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-7xl">
         <header class="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">CollegeFinder</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">CollegeFinder</h1>
                 <p class="text-gray-600 mt-1">提取结果汇总 / 按学测成绩筛选可报学校</p>
-                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-03-01-1</p>
+                <p class="text-xs text-gray-400 mt-1">UI版本: 2026-03-02-1</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
                 <a href="/" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">返回工作台</a>
@@ -59,16 +59,16 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2 items-center">
-                    <input id="major-search" type="text" class="border rounded px-3 py-2 text-sm" placeholder="搜索专业...">
+                    <input id="major-search" type="text" class="w-full sm:w-64 border rounded px-3 py-2 text-sm" placeholder="搜索专业...">
                     <button id="btn-clear-majors" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded text-sm" disabled>
                         清空专业筛选
                     </button>
                 </div>
             </div>
-            <div id="major-chips" class="mt-4 flex flex-wrap gap-2 max-h-48 overflow-auto pr-1"></div>
+            <div id="major-chips" class="mt-4 flex flex-wrap gap-2 max-h-40 sm:max-h-48 overflow-auto pr-1"></div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-6">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <h2 class="text-xl font-semibold">我的学测成绩（标准）</h2>
                 <div id="load-indicator" class="hidden text-sm text-gray-500">
@@ -113,6 +113,10 @@
                     <input type="checkbox" id="chk-include-unknown" class="w-4 h-4">
                     <span class="text-sm">包含需核对（要求缺失/级分）</span>
                 </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="chk-show-fail" class="w-4 h-4">
+                    <span class="text-sm">显示不达标（显示差距）</span>
+                </label>
 
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-700">排序</span>
@@ -123,7 +127,7 @@
                     </select>
                 </div>
 
-                <button id="btn-reset" class="ml-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded">
+                <button id="btn-reset" class="ml-auto w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded">
                     清空成绩
                 </button>
             </div>
@@ -131,7 +135,7 @@
             <div id="match-stats" class="mt-3 text-sm text-gray-600"></div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-6">
             <h2 class="text-xl font-semibold mb-4">筛选条件</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div>
@@ -140,7 +144,7 @@
                         <button id="filter-area-btn" type="button" class="w-full border rounded px-3 py-2 bg-white text-left">
                             <span id="filter-area-label">全部地区</span>
                         </button>
-                        <div id="filter-area-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden">
+                        <div id="filter-area-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden max-h-[70vh] overflow-y-auto overscroll-contain">
                             <div class="flex gap-2 items-center">
                                 <button id="filter-area-clear" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">清空</button>
                                 <button id="filter-area-all" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">全选</button>
@@ -156,7 +160,7 @@
                         <button id="filter-tier-btn" type="button" class="w-full border rounded px-3 py-2 bg-white text-left">
                             <span id="filter-tier-label">全部类别</span>
                         </button>
-                        <div id="filter-tier-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden">
+                        <div id="filter-tier-panel" class="absolute z-20 mt-1 w-full bg-white border rounded shadow p-3 hidden max-h-[70vh] overflow-y-auto overscroll-contain">
                             <div class="flex gap-2 items-center">
                                 <button id="filter-tier-clear" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">清空</button>
                                 <button id="filter-tier-all" type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded text-xs">全选</button>
@@ -348,27 +352,27 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow">
+        <div class="bg-white rounded-lg shadow overflow-hidden">
             <div class="p-4 border-b flex items-center justify-between gap-4 flex-wrap">
                 <h2 class="text-xl font-semibold">提取结果汇总 (<span id="row-count">0</span>)</h2>
                 <div id="data-meta" class="text-sm text-gray-500"></div>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full text-xs md:text-sm">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-3 py-3 text-left whitespace-nowrap">学校</th>
-                            <th class="px-3 py-3 text-left whitespace-nowrap">地区</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">适用类别</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">国文</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">英文</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">数学A</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">数学B</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">社会</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">自然</th>
-                            <th class="px-3 py-3 text-left whitespace-nowrap">其他条件</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">截止日期</th>
-                            <th class="px-3 py-3 text-center whitespace-nowrap">信心度</th>
+                            <th class="px-2 md:px-3 py-3 text-left whitespace-nowrap">学校</th>
+                            <th class="px-2 md:px-3 py-3 text-left whitespace-nowrap">地区</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">适用类别</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">国文</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">英文</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">数学A</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">数学B</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">社会</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">自然</th>
+                            <th class="px-2 md:px-3 py-3 text-left whitespace-nowrap">其他条件</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">截止日期</th>
+                            <th class="px-2 md:px-3 py-3 text-center whitespace-nowrap">信心度</th>
                         </tr>
                     </thead>
                     <tbody id="summary-table-body">
@@ -378,13 +382,17 @@
                     </tbody>
                 </table>
             </div>
+
+            <div id="summary-cards" class="md:hidden">
+                <div class="px-4 py-8 text-center text-gray-500">暂无数据</div>
+            </div>
         </div>
     </div>
 
     <!-- Detail Modal -->
     <div id="detail-modal" class="fixed inset-0 hidden">
         <div id="modal-backdrop" class="absolute inset-0 bg-black/40"></div>
-        <div class="relative mx-auto my-10 w-[95%] max-w-4xl">
+        <div class="relative mx-auto my-6 sm:my-10 w-[95%] max-w-4xl">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                 <div class="p-4 border-b flex items-center justify-between gap-3">
                     <div>
@@ -393,12 +401,12 @@
                     </div>
                     <button id="btn-close-modal" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1.5 rounded">关闭</button>
                 </div>
-                <div id="modal-content" class="p-4 max-h-[75vh] overflow-y-auto"></div>
+                <div id="modal-content" class="p-4 max-h-[80vh] sm:max-h-[75vh] overflow-y-auto"></div>
             </div>
         </div>
     </div>
 
-    <script src="summary.js?v=20260301-1"></script>
+    <script src="summary.js?v=20260302-1"></script>
 </body>
 
 </html>

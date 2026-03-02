@@ -1,5 +1,5 @@
 // CollegeFinder Summary Page (Static)
-const UI_VERSION = '2026-03-01-1-static-2';
+const UI_VERSION = '2026-03-02-1-static-3';
 const DATA_URL = './results.json';
 
 const SUBJECTS = [
@@ -448,6 +448,7 @@ const elements = {
     },
     chkOnlyEligible: document.getElementById('chk-only-eligible'),
     chkIncludeUnknown: document.getElementById('chk-include-unknown'),
+    chkShowFail: document.getElementById('chk-show-fail'),
     sortBy: document.getElementById('sort-by'),
     btnReset: document.getElementById('btn-reset'),
     matchStats: document.getElementById('match-stats'),
@@ -484,6 +485,7 @@ const elements = {
     rowCount: document.getElementById('row-count'),
     dataMeta: document.getElementById('data-meta'),
     tableBody: document.getElementById('summary-table-body'),
+    cardsWrap: document.getElementById('summary-cards'),
     modal: document.getElementById('detail-modal'),
     modalBackdrop: document.getElementById('modal-backdrop'),
     btnCloseModal: document.getElementById('btn-close-modal'),
@@ -506,6 +508,7 @@ let lastMajorAvailable = [];
 let lastMajorNoteText = '';
 
 let opptyOnlyEligibleSnapshot = null;
+let opptyShowFailSnapshot = null;
 
 let renderRaf = null;
 
@@ -802,6 +805,9 @@ async function fetchAllResults() {
         console.error('[CollegeFinder] summary load failed:', e);
         elements.matchStats.textContent = `加载失败：${e && e.message ? e.message : String(e)}`;
         elements.tableBody.innerHTML = '<tr><td colspan="12" class="px-4 py-8 text-center text-red-600">加载数据失败，请检查 results.json 是否存在且可访问</td></tr>';
+        if (elements.cardsWrap) {
+            elements.cardsWrap.innerHTML = '<div class="px-4 py-8 text-center text-red-600">加载数据失败，请检查 results.json 是否存在且可访问</div>';
+        }
     } finally {
         elements.loadIndicator.classList.add('hidden');
         elements.btnRefresh.disabled = false;
@@ -1746,6 +1752,7 @@ function applyFiltersAndMatch() {
 
     const onlyEligible = !!elements.chkOnlyEligible.checked;
     const includeUnknown = !!elements.chkIncludeUnknown.checked;
+    const showFail = !!(elements.chkShowFail && elements.chkShowFail.checked);
 
     const oppty = buildOpptySettings();
     const opptyActive = !!(
@@ -1793,12 +1800,27 @@ function applyFiltersAndMatch() {
             delete row._opptyGapText;
             delete row._opptyGapMax;
             delete row._opptySignals;
+            delete row._gapText;
+            delete row._gapMax;
+            delete row._gapCount;
+            delete row._gapReason;
 
             let match = { status: 'n/a', fit: null, reason: null };
             if (scoreActive) {
                 match = evaluateRow(row.reqs, userScores, row.choiceGroups, { includeUnknown });
             }
             row._match = match;
+
+            if (scoreActive && match.status === 'fail') {
+                const gap = evaluateRowGap(row.reqs, userScores, row.choiceGroups);
+                if (gap && gap.status === 'fail' && typeof gap.maxDeficit === 'number') {
+                    row._gapMax = gap.maxDeficit;
+                    row._gapCount = Array.isArray(gap.details) ? gap.details.length : null;
+                    row._gapText = formatGapDetails(gap);
+                } else if (gap && gap.status === 'unknown') {
+                    row._gapReason = gap.reason || '';
+                }
+            }
         }
 
         if (!scoreActive || !opptyActive) {
@@ -1826,7 +1848,7 @@ function applyFiltersAndMatch() {
                 }
 
                 if (onlyEligible) {
-                    if (match.status === 'pass' || (includeUnknown && match.status === 'unknown')) {
+                    if (match.status === 'pass' || (includeUnknown && match.status === 'unknown') || (showFail && match.status === 'fail')) {
                         rows.push(row);
                     }
                 } else {
@@ -2123,6 +2145,9 @@ function render() {
 
     if (groups.length === 0 || stats.totalRows === 0) {
         elements.tableBody.innerHTML = '<tr><td colspan="12" class="px-4 py-8 text-center text-gray-500">无匹配结果</td></tr>';
+        if (elements.cardsWrap) {
+            elements.cardsWrap.innerHTML = '<div class="px-4 py-8 text-center text-gray-500">无匹配结果</div>';
+        }
         return;
     }
 
@@ -2135,7 +2160,11 @@ function render() {
         '非双一流': 'bg-gray-100 text-gray-600',
     };
 
+    const renderCards = !!(elements.cardsWrap && window.matchMedia && window.matchMedia('(max-width: 767px)').matches);
+    const renderTable = !!elements.tableBody && !renderCards;
+
     let html = '';
+    let cardsHtml = '';
     for (const g of groups) {
         const rs = g.rows.length;
         const tier = g.tier || '非双一流';
@@ -2173,7 +2202,7 @@ function render() {
                     : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-gray-100 text-gray-500 ml-2">未承认</span>';
 
                 schoolCells = `
-                    <td class="px-3 py-2 border-b font-medium"${rsAttr}>
+                    <td class="px-2 md:px-3 py-2 border-b font-medium"${rsAttr}>
                         <div class="leading-snug">
                             ${link}${matchBadge}${majorBadge}
                         </div>
@@ -2182,7 +2211,7 @@ function render() {
                             ${twBadge}
                         </div>
                     </td>
-                    <td class="px-3 py-2 border-b text-sm"${rsAttr}>${escapeHtml(g.area || '')}</td>
+                    <td class="px-2 md:px-3 py-2 border-b text-sm"${rsAttr}>${escapeHtml(g.area || '')}</td>
                 `;
             }
 
@@ -2190,8 +2219,8 @@ function render() {
             if (idx === 0) {
                 const rsAttr = rs > 1 ? ` rowspan="${rs}"` : '';
                 tailCells = `
-                    <td class="px-3 py-2 border-b text-center text-sm"${rsAttr}>${escapeHtml(deadline)}</td>
-                    <td class="px-3 py-2 border-b text-center"${rsAttr}><span class="inline-block px-2 py-0.5 text-xs rounded ${confClass}">${escapeHtml(conf)}</span></td>
+                    <td class="px-2 md:px-3 py-2 border-b text-center text-sm"${rsAttr}>${escapeHtml(deadline)}</td>
+                    <td class="px-2 md:px-3 py-2 border-b text-center"${rsAttr}><span class="inline-block px-2 py-0.5 text-xs rounded ${confClass}">${escapeHtml(conf)}</span></td>
                 `;
             }
 
@@ -2207,6 +2236,18 @@ function render() {
             const opSubParts = [];
             if (opType === 'nearmiss' && row._opptyGapText) {
                 opSubParts.push(`差距: ${row._opptyGapText}`);
+            } else if (match.status === 'fail') {
+                const cnt = (typeof row._gapCount === 'number') ? row._gapCount : null;
+                const mx = (typeof row._gapMax === 'number') ? row._gapMax : null;
+                if (row._gapText) {
+                    const head = [];
+                    if (cnt) head.push(`${cnt}科`);
+                    if (mx) head.push(`最大差${mx}标`);
+                    const prefix = head.length ? `${head.join(' / ')}：` : '';
+                    opSubParts.push(`差距: ${prefix}${row._gapText}`);
+                } else if (row._gapReason) {
+                    opSubParts.push(`差距: ${row._gapReason}`);
+                }
             }
             if (Array.isArray(row._opptySignals) && row._opptySignals.length) {
                 opSubParts.push(`可咨询: ${row._opptySignals.slice(0, 2).join('、')}`);
@@ -2216,7 +2257,7 @@ function render() {
                 : '';
 
             const deptCellHtml = `
-                <td class="px-3 py-2 border-b text-center text-sm text-gray-700">
+                <td class="px-2 md:px-3 py-2 border-b text-center text-sm text-gray-700">
                     <div>${escapeHtml(row.deptName || '')}${opBadge}</div>
                     ${opSub}
                 </td>
@@ -2225,24 +2266,90 @@ function render() {
             const other = String(row.otherText || '');
             const otherShort = other.length > 120 ? other.slice(0, 120) + '…' : other;
 
-            html += `
-                <tr class="${rowClass} cursor-pointer" data-row-key="${escapeHtml(rowKey)}">
-                    ${schoolCells}
-                    ${deptCellHtml}
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.chinese))}</td>
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.english))}</td>
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.math_a))}</td>
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.math_b))}</td>
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.social))}</td>
-                    <td class="px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.science))}</td>
-                    <td class="px-3 py-2 border-b text-sm text-gray-800" title="${escapeHtml(other)}">${escapeHtml(otherShort)}</td>
-                    ${tailCells}
-                </tr>
-            `;
+            // Mobile cards
+            if (renderCards) {
+                const schoolLink = g.sourceUrl
+                    ? `<a href="${escapeHtml(g.sourceUrl)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline" onclick="event.stopPropagation()">${escapeHtml(g.schoolName)}</a>`
+                    : `${escapeHtml(g.schoolName)}`;
+
+                const rowBadge = base.scoreActive
+                    ? (match.status === 'pass'
+                        ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-100 text-emerald-800">可报</span>'
+                        : match.status === 'unknown'
+                            ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-100 text-amber-800">需核对</span>'
+                            : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-rose-100 text-rose-800">不达标</span>')
+                    : '';
+
+                const twBadgeSmall = g.taiwanRecognized
+                    ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-green-100 text-green-700">台湾承认</span>'
+                    : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-gray-100 text-gray-500">未承认</span>';
+
+                const sub = opSubParts.length
+                    ? `<div class="mt-1 text-xs text-gray-600">${escapeHtml(opSubParts.join(' · '))}</div>`
+                    : '';
+
+                const reqGrid = SUBJECTS.map(({ key, label }) => {
+                    return `
+                        <div class="flex items-center justify-between bg-gray-50 rounded px-2 py-1">
+                            <span class="text-gray-500">${escapeHtml(label)}</span>
+                            <span class="font-medium text-gray-800">${escapeHtml(formatReq(row.reqs[key]))}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                const otherShortCard = other.length > 90 ? other.slice(0, 90) + '…' : other;
+                const otherHtml = otherShortCard
+                    ? `<div class="mt-2 text-xs text-gray-700">${escapeHtml(otherShortCard)}</div>`
+                    : '';
+
+                cardsHtml += `
+                    <div class="p-3 bg-white border-b cursor-pointer active:bg-gray-50" data-row-key="${escapeHtml(rowKey)}">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="font-semibold text-gray-900 leading-snug">${schoolLink}</div>
+                            <div class="shrink-0">${rowBadge}</div>
+                        </div>
+                        <div class="mt-1 flex flex-wrap items-center gap-2">
+                            <span class="inline-block px-2 py-0.5 text-xs rounded ${tierClass}">${escapeHtml(tier)}</span>
+                            <span class="text-xs text-gray-500">${escapeHtml(g.area || '')}</span>
+                            ${twBadgeSmall}
+                            <span class="inline-block px-2 py-0.5 text-xs rounded ${confClass}">${escapeHtml(conf)}</span>
+                            <span class="text-xs text-gray-500">截止: ${escapeHtml(deadline || '-')}</span>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-800">${escapeHtml(row.deptName || '')}${opBadge}</div>
+                        ${sub}
+                        <div class="mt-2 grid grid-cols-2 gap-2 text-xs">${reqGrid}</div>
+                        ${otherHtml}
+                    </div>
+                `;
+            }
+
+            if (renderTable) {
+                html += `
+                    <tr class="${rowClass} cursor-pointer" data-row-key="${escapeHtml(rowKey)}">
+                        ${schoolCells}
+                        ${deptCellHtml}
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.chinese))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.english))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.math_a))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.math_b))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.social))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-center text-sm">${escapeHtml(formatReq(row.reqs.science))}</td>
+                        <td class="px-2 md:px-3 py-2 border-b text-sm text-gray-800" title="${escapeHtml(other)}">${escapeHtml(otherShort)}</td>
+                        ${tailCells}
+                    </tr>
+                `;
+            }
         });
     }
 
-    elements.tableBody.innerHTML = html;
+    if (renderTable) {
+        elements.tableBody.innerHTML = html;
+    } else {
+        elements.tableBody.innerHTML = '';
+    }
+    if (elements.cardsWrap) {
+        elements.cardsWrap.innerHTML = renderCards ? cardsHtml : '';
+    }
 }
 
 function openModal(rowKey) {
@@ -2266,6 +2373,26 @@ function openModal(rowKey) {
             : (match.status === 'fail')
                 ? `匹配: 不符合（${match.reason || '原因不明'}）`
                 : '';
+
+    let gapInfo = '';
+    if (match.status === 'fail') {
+        if (String(row._opptyType || '') === 'nearmiss' && row._opptyGapText) {
+            gapInfo = String(row._opptyGapText);
+        } else if (row._gapText) {
+            const cnt = (typeof row._gapCount === 'number') ? row._gapCount : null;
+            const mx = (typeof row._gapMax === 'number') ? row._gapMax : null;
+            const head = [];
+            if (cnt) head.push(`${cnt}科未达`);
+            if (mx) head.push(`最大差${mx}标`);
+            const prefix = head.length ? (head.join('，') + '；') : '';
+            gapInfo = prefix + String(row._gapText);
+        } else if (row._gapReason) {
+            gapInfo = String(row._gapReason);
+        }
+    }
+    const gapBlock = gapInfo
+        ? `<div class="mt-4"><h3 class="font-medium mb-2">与当前成绩差距</h3><div class="text-sm text-gray-700">${escapeHtml(gapInfo)}</div></div>`
+        : '';
 
     elements.modalTitle.textContent = title;
     elements.modalSubtitle.textContent = [g.area, tier, tw, matchText, processedAt].filter(Boolean).join(' · ');
@@ -2353,6 +2480,8 @@ function openModal(rowKey) {
                 </tr>
             </table>
         </div>
+
+        ${gapBlock}
 
         <div class="mt-4">
             <h3 class="font-medium mb-2">其他条件</h3>
@@ -2442,15 +2571,30 @@ function applyOpptyUiState() {
         if (opptyOnlyEligibleSnapshot === null) {
             opptyOnlyEligibleSnapshot = !!elements.chkOnlyEligible.checked;
         }
+        if (elements.chkShowFail && opptyShowFailSnapshot === null) {
+            opptyShowFailSnapshot = !!elements.chkShowFail.checked;
+        }
         // opportunity mode may include "fail" (near-miss), disable this switch to avoid confusion
         elements.chkOnlyEligible.checked = false;
         elements.chkOnlyEligible.disabled = true;
+        if (elements.chkShowFail) {
+            elements.chkShowFail.checked = false;
+            elements.chkShowFail.disabled = true;
+        }
     } else {
         elements.chkOnlyEligible.disabled = false;
         if (opptyOnlyEligibleSnapshot !== null) {
             elements.chkOnlyEligible.checked = !!opptyOnlyEligibleSnapshot;
         }
         opptyOnlyEligibleSnapshot = null;
+
+        if (elements.chkShowFail) {
+            elements.chkShowFail.disabled = false;
+            if (opptyShowFailSnapshot !== null) {
+                elements.chkShowFail.checked = !!opptyShowFailSnapshot;
+            }
+        }
+        opptyShowFailSnapshot = null;
     }
 }
 
@@ -2499,6 +2643,7 @@ if (elements.opptyKeywords) {
     elements.sortBy,
     elements.chkOnlyEligible,
     elements.chkIncludeUnknown,
+    elements.chkShowFail,
 ].forEach(el => el && el.addEventListener('change', scheduleRender));
 
 if (elements.filterSearch) {
@@ -2638,11 +2783,22 @@ elements.tableBody.addEventListener('click', (e) => {
     openModal(tr.dataset.rowKey);
 });
 
+if (elements.cardsWrap) {
+    elements.cardsWrap.addEventListener('click', (e) => {
+        const card = e.target.closest('[data-row-key]');
+        if (!card) return;
+        if (e.target.closest('a')) return;
+        openModal(card.dataset.rowKey);
+    });
+}
+
 elements.btnCloseModal.addEventListener('click', closeModal);
 elements.modalBackdrop.addEventListener('click', closeModal);
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !elements.modal.classList.contains('hidden')) closeModal();
 });
+
+window.addEventListener('resize', scheduleRender);
 
 // Init
 (async function init() {
