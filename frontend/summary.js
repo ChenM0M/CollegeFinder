@@ -2941,7 +2941,7 @@ function initSecretStarEntry() {
     const isTypingTarget = (t) => {
         if (!t) return false;
         const tag = String(t.tagName || '').toUpperCase();
-        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
         if (t.isContentEditable) return true;
         return false;
     };

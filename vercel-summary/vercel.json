@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/star",
+      "destination": "/star/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/results.json",
