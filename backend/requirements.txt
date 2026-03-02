@@ -7,3 +7,6 @@ beautifulsoup4==4.12.3
 lxml==5.1.0
 pypdf==4.0.1
 aiofiles==23.2.1
+PyMuPDF==1.26.7
+winsdk==1.0.0b10
+opencv-python==4.10.0.84

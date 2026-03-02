@@ -20,6 +20,10 @@ venv/
 
 # App artifacts
 data/pdfs/
+data/cac_star/pdfs/
+data/cac_star/cache/
+data/cac_star/tw_star_apply_dataset.json
+data/_tmp_*.pdf
 
 # Logs
 *.log

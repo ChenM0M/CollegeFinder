@@ -9,6 +9,7 @@
     <meta http-equiv="Expires" content="0">
     <title>CollegeFinder - 汇总检索</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js"></script>
     <style>
         .loader {
             border: 3px solid #f3f3f3;
@@ -41,6 +42,10 @@
                 <p class="text-xs text-gray-400 mt-1">UI版本: 2026-03-02-1-static-3</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
+                <div id="lang-switch" class="flex items-center rounded border border-gray-200 overflow-hidden bg-white">
+                    <button type="button" data-lang="zh-CN" class="px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">简体</button>
+                    <button type="button" data-lang="zh-TW" class="px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">繁體</button>
+                </div>
                 <button id="btn-refresh" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
                     刷新数据
                 </button>

@@ -8,6 +8,15 @@
           "value": "no-store"
         }
       ]
+    },
+    {
+      "source": "/star/tw_star_apply_dataset.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ]
 }

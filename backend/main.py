@@ -39,6 +39,59 @@ from apply_classification import (
 
 app = FastAPI(title="CollegeFinder API")
 
+
+_CAC_SYS_DIR_CACHE = {}  # (kind, year) -> sys_dir
+
+
+async def _discover_cac_system_dir(kind: str, year: int) -> str:
+    """Discover CAC system directory from query.php.
+
+    kind: 'star' or 'apply'
+    """
+
+    k = str(kind or "").strip()
+    y = int(year)
+    cache_key = (k, y)
+    if cache_key in _CAC_SYS_DIR_CACHE:
+        return _CAC_SYS_DIR_CACHE[cache_key]
+
+    url = f"https://www.cac.edu.tw/{k}{y}/query.php"
+    async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
+        resp = await client.get(url, headers=HEADERS)
+        resp.raise_for_status()
+        html = resp.text or ""
+
+    if k == "star":
+        pat = re.compile(r"\./system/(ColQry_" + str(y) + r"[^/]+)/SGroup1\.htm")
+        m = pat.search(html)
+        if m:
+            _CAC_SYS_DIR_CACHE[cache_key] = m.group(1)
+            return m.group(1)
+        pat2 = re.compile(r"\./system/(ColQry_" + str(y) + r"[^/]+)/")
+        m2 = pat2.search(html)
+        if m2:
+            _CAC_SYS_DIR_CACHE[cache_key] = m2.group(1)
+            return m2.group(1)
+    elif k == "apply":
+        pat = re.compile(r"\./system/(ColQry_" + str(y) + r"apply[^/]+)/")
+        m = pat.search(html)
+        if m:
+            _CAC_SYS_DIR_CACHE[cache_key] = m.group(1)
+            return m.group(1)
+        pat2 = re.compile(r"\./system/(ColQry_" + str(y) + r"[^/]+)/QrybyStu")
+        m2 = pat2.search(html)
+        if m2:
+            _CAC_SYS_DIR_CACHE[cache_key] = m2.group(1)
+            return m2.group(1)
+        pat3 = re.compile(r"\./system/(ColQry_" + str(y) + r"[^/]+)/")
+        m3 = pat3.search(html)
+        if m3:
+            _CAC_SYS_DIR_CACHE[cache_key] = m3.group(1)
+            return m3.group(1)
+
+    raise RuntimeError(f"无法从 query.php 发现系统目录: {k}{y}")
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -1430,6 +1483,34 @@ async def get_results():
     return results
 
 
+@app.get("/api/tw-star-dataset")
+async def get_tw_star_dataset():
+    """获取台湾繁星/个申筛选数据集（需先离线生成）"""
+    fp = os.path.join(DATA_DIR, "cac_star", "tw_star_apply_dataset.json")
+    if not os.path.exists(fp):
+        raise HTTPException(
+            status_code=404,
+            detail="未生成数据集：请先运行 backend/tw_star_apply_dataset.py",
+        )
+    with open(fp, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    # Backfill system dirs for deep links (older datasets may miss these fields)
+    try:
+        if isinstance(data, dict):
+            sy = int(data.get("star_year") or 0)
+            ay = int(data.get("apply_year") or 0)
+            if not data.get("star_sys_dir") and sy:
+                data["star_sys_dir"] = await _discover_cac_system_dir("star", sy)
+            if not data.get("apply_sys_dir") and ay:
+                data["apply_sys_dir"] = await _discover_cac_system_dir("apply", ay)
+    except Exception:
+        # Non-fatal; frontend will fall back to query.php links
+        pass
+
+    return data
+
+
 @app.get("/api/results/{school_id}")
 async def get_school_result(school_id: str):
     """获取单个学校的结果"""
@@ -2125,6 +2206,29 @@ if os.path.exists(frontend_path):
     @app.get("/summary/")
     async def summary_page_slash():
         return RedirectResponse("/summary")
+
+    @app.get("/tw-star")
+    async def tw_star_page():
+        fp = os.path.join(frontend_path, "tw-star.html")
+        if os.path.exists(fp):
+            return FileResponse(fp, media_type="text/html")
+        return RedirectResponse("/")
+
+    @app.get("/tw-star/")
+    async def tw_star_page_slash():
+        return RedirectResponse("/tw-star")
+
+    @app.get("/star")
+    async def star_page_alias():
+        """Alias for Taiwan Star page (local backend)."""
+        fp = os.path.join(frontend_path, "tw-star.html")
+        if os.path.exists(fp):
+            return FileResponse(fp, media_type="text/html")
+        return RedirectResponse("/")
+
+    @app.get("/star/")
+    async def star_page_alias_slash():
+        return RedirectResponse("/star")
 
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 

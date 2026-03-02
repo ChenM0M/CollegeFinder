@@ -57,6 +57,140 @@ const CHOICE_WORDS = [
 const STORAGE_KEY_SCORES = 'collegefinder.summary.user_scores.v1';
 const STORAGE_KEY_SELECTED_MAJORS = 'collegefinder.summary.selected_majors.v1';
 const STORAGE_KEY_OPPTY = 'collegefinder.summary.oppty_settings.v1';
+const STORAGE_KEY_LANG = 'collegefinder.ui.lang.v1';
+
+let UI_LANG = loadUiLang();
+let _CN2T = null;
+
+function loadUiLang() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_LANG);
+        if (raw === 'zh-TW' || raw === 'zh-CN') return raw;
+    } catch (e) {
+        // ignore
+    }
+    return 'zh-CN';
+}
+
+function ensureCn2t() {
+    if (UI_LANG !== 'zh-TW') return null;
+    if (_CN2T) return _CN2T;
+    try {
+        if (typeof OpenCC !== 'undefined' && OpenCC && typeof OpenCC.Converter === 'function') {
+            _CN2T = OpenCC.Converter({ from: 'cn', to: 'tw' });
+        }
+    } catch (e) {
+        _CN2T = null;
+    }
+    return _CN2T;
+}
+
+function toUI(s) {
+    const str = String(s ?? '');
+    const conv = ensureCn2t();
+    if (UI_LANG === 'zh-TW' && conv) {
+        try {
+            return conv(str);
+        } catch (e) {
+            return str;
+        }
+    }
+    return str;
+}
+
+function setText(el, text) {
+    if (!el) return;
+    el.textContent = toUI(text);
+}
+
+function setHtml(el, html) {
+    if (!el) return;
+    el.innerHTML = toUI(html);
+}
+
+function applyLangToStaticDom() {
+    try {
+        document.documentElement.setAttribute('lang', UI_LANG);
+    } catch (e) {
+        // ignore
+    }
+
+    if (UI_LANG !== 'zh-TW') return;
+    const conv = ensureCn2t();
+    if (!conv) return;
+
+    // Convert placeholders / titles / aria-labels
+    document.querySelectorAll('[placeholder]').forEach(el => {
+        const v = el.getAttribute('placeholder');
+        if (v) el.setAttribute('placeholder', toUI(v));
+    });
+    document.querySelectorAll('[title]').forEach(el => {
+        const v = el.getAttribute('title');
+        if (v) el.setAttribute('title', toUI(v));
+    });
+    document.querySelectorAll('[aria-label]').forEach(el => {
+        const v = el.getAttribute('aria-label');
+        if (v) el.setAttribute('aria-label', toUI(v));
+    });
+
+    // Convert visible text nodes (skip scripts/styles)
+    const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+        {
+            acceptNode(node) {
+                if (!node || !node.nodeValue) return NodeFilter.FILTER_REJECT;
+                if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                const p = node.parentElement;
+                if (!p) return NodeFilter.FILTER_REJECT;
+                const tag = (p.tagName || '').toUpperCase();
+                if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return NodeFilter.FILTER_REJECT;
+                if (p.closest('.ignore-opencc')) return NodeFilter.FILTER_REJECT;
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        }
+    );
+
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => {
+        n.nodeValue = toUI(n.nodeValue);
+    });
+}
+
+function initLangSwitch() {
+    const wrap = document.getElementById('lang-switch');
+    if (!wrap) return;
+    const btns = Array.from(wrap.querySelectorAll('button[data-lang]'));
+    if (!btns.length) return;
+
+    const update = () => {
+        btns.forEach(btn => {
+            const lang = String(btn.dataset.lang || '');
+            const active = lang === UI_LANG;
+            btn.classList.toggle('bg-gray-900', active);
+            btn.classList.toggle('text-white', active);
+            btn.classList.toggle('bg-white', !active);
+            btn.classList.toggle('text-gray-700', !active);
+        });
+    };
+
+    update();
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = String(btn.dataset.lang || '');
+            if (lang !== 'zh-CN' && lang !== 'zh-TW') return;
+            if (lang === UI_LANG) return;
+            try {
+                localStorage.setItem(STORAGE_KEY_LANG, lang);
+            } catch (e) {
+                // ignore
+            }
+            window.location.reload();
+        });
+    });
+}
 
 function noCacheUrl(url) {
     const sep = url.includes('?') ? '&' : '?';
@@ -523,10 +657,10 @@ function scheduleRender() {
 function fillStandardOptions(selectEl) {
     if (!selectEl) return;
     const opts = [''].concat(Object.keys(STANDARD_RANK));
-    selectEl.innerHTML = opts.map(v => {
+    setHtml(selectEl, opts.map(v => {
         const label = v ? v : '未填写';
         return `<option value="${escapeHtml(v)}">${escapeHtml(label)}</option>`;
-    }).join('');
+    }).join(''));
 }
 
 function getUserScores() {
@@ -717,13 +851,13 @@ function setPanelOpen(panelEl, open) {
 function updateAreaFilterLabel() {
     if (!elements.filterAreaLabel) return;
     const n = selectedAreas.size;
-    elements.filterAreaLabel.textContent = n ? `已选 ${n} 项` : '全部地区';
+    setText(elements.filterAreaLabel, n ? `已选 ${n} 项` : '全部地区');
 }
 
 function updateTierFilterLabel() {
     if (!elements.filterTierLabel) return;
     const n = selectedTiers.size;
-    elements.filterTierLabel.textContent = n ? `已选 ${n} 项` : '全部类别';
+    setText(elements.filterTierLabel, n ? `已选 ${n} 项` : '全部类别');
 }
 
 function applyAreaSearchFilter() {
@@ -748,7 +882,7 @@ function populateAreaFilter(groups) {
     selectedAreas = new Set(Array.from(selectedAreas).filter(x => areas.has(x)));
 
     if (!elements.filterAreaOptions) return;
-    elements.filterAreaOptions.innerHTML = sorted.map(a => {
+    setHtml(elements.filterAreaOptions, sorted.map(a => {
         const checked = selectedAreas.has(a);
         return `
             <label class="flex items-center gap-2 py-1" data-value="${escapeHtml(a)}">
@@ -756,7 +890,7 @@ function populateAreaFilter(groups) {
                 <span>${escapeHtml(a)}</span>
             </label>
         `;
-    }).join('');
+    }).join(''));
 
     updateAreaFilterLabel();
     applyAreaSearchFilter();
@@ -771,7 +905,7 @@ function initTierFilterOptions() {
     ];
 
     if (!elements.filterTierOptions) return;
-    elements.filterTierOptions.innerHTML = tierOpts.map(t => {
+    setHtml(elements.filterTierOptions, tierOpts.map(t => {
         const checked = selectedTiers.has(t.value);
         return `
             <label class="flex items-center gap-2 py-1" data-value="${escapeHtml(t.value)}">
@@ -779,7 +913,7 @@ function initTierFilterOptions() {
                 <span>${escapeHtml(t.label)}</span>
             </label>
         `;
-    }).join('');
+    }).join(''));
 
     updateTierFilterLabel();
 }
@@ -788,7 +922,7 @@ async function fetchAllResults() {
     elements.loadIndicator.classList.remove('hidden');
     const oldText = elements.btnRefresh.textContent;
     elements.btnRefresh.disabled = true;
-    elements.btnRefresh.textContent = '刷新中...';
+    setText(elements.btnRefresh, '刷新中...');
     try {
         const resp = await fetch(noCacheUrl(`${API_BASE}/results`), { cache: 'no-store' });
         if (!resp.ok) {
@@ -803,15 +937,15 @@ async function fetchAllResults() {
         render();
     } catch (e) {
         console.error('[CollegeFinder] summary load failed:', e);
-        elements.matchStats.textContent = `加载失败：${e && e.message ? e.message : String(e)}`;
-        elements.tableBody.innerHTML = '<tr><td colspan="12" class="px-4 py-8 text-center text-red-600">加载数据失败，请检查后端是否启动</td></tr>';
+        setText(elements.matchStats, `加载失败：${e && e.message ? e.message : String(e)}`);
+        setHtml(elements.tableBody, '<tr><td colspan="12" class="px-4 py-8 text-center text-red-600">加载数据失败，请检查后端是否启动</td></tr>');
         if (elements.cardsWrap) {
-            elements.cardsWrap.innerHTML = '<div class="px-4 py-8 text-center text-red-600">加载数据失败，请检查后端是否启动</div>';
+            setHtml(elements.cardsWrap, '<div class="px-4 py-8 text-center text-red-600">加载数据失败，请检查后端是否启动</div>');
         }
     } finally {
         elements.loadIndicator.classList.add('hidden');
         elements.btnRefresh.disabled = false;
-        elements.btnRefresh.textContent = oldText;
+        setText(elements.btnRefresh, oldText);
     }
 }
 
@@ -1042,18 +1176,18 @@ function renderMajorChips(availableMajors, noteText) {
         chips.push({ norm: m, label, missing: false });
     });
 
-    if (elements.majorCount) elements.majorCount.textContent = String(all.length);
-    if (elements.majorSelectedCount) elements.majorSelectedCount.textContent = String(selectedMajors.size);
-    if (elements.majorNote) elements.majorNote.textContent = noteText || '';
+    if (elements.majorCount) setText(elements.majorCount, String(all.length));
+    if (elements.majorSelectedCount) setText(elements.majorSelectedCount, String(selectedMajors.size));
+    if (elements.majorNote) setText(elements.majorNote, noteText || '');
     if (elements.btnClearMajors) elements.btnClearMajors.disabled = selectedMajors.size === 0;
 
     if (!elements.majorChips) return;
     if (chips.length === 0) {
-        elements.majorChips.innerHTML = '<div class="text-sm text-gray-400">暂无专业数据（请在工作台勾选“强制刷新已有结果”后重跑提取以补全专业）</div>';
+        setHtml(elements.majorChips, '<div class="text-sm text-gray-400">暂无专业数据（请在工作台勾选“强制刷新已有结果”后重跑提取以补全专业）</div>');
         return;
     }
 
-    elements.majorChips.innerHTML = chips.map(c => {
+    setHtml(elements.majorChips, chips.map(c => {
         const selected = selectedMajors.has(c.norm);
         const base = 'text-xs px-2 py-1 rounded border';
         const cls = c.missing
@@ -1063,7 +1197,7 @@ function renderMajorChips(availableMajors, noteText) {
                 : `${base} bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100`;
         const suffix = c.missing ? '（不在当前范围）' : '';
         return `<button type="button" class="${cls}" data-major="${escapeHtml(c.norm)}" aria-pressed="${selected ? 'true' : 'false'}">${escapeHtml(String(c.label || '') + suffix)}</button>`;
-    }).join('');
+    }).join(''));
 }
 
 function applyMajorFilterToGroups(groups) {
@@ -2101,10 +2235,10 @@ function render() {
     const groups = majorRes.groups;
 
     const stats = recountStats(groups, base.scoreActive);
-    elements.rowCount.textContent = String(stats.totalRows);
+    setText(elements.rowCount, String(stats.totalRows));
 
     const last = resultsMeta.last_updated ? `数据更新时间: ${resultsMeta.last_updated}` : '';
-    elements.dataMeta.textContent = last;
+    setText(elements.dataMeta, last);
 
     let majorNote = '';
     if (selectedMajors.size > 0) {
@@ -2133,20 +2267,20 @@ function render() {
     }
 
     if (opptyEnabled && opptyActive) {
-        elements.matchStats.textContent = `机会探索结果（当前筛选范围内）：转系候选 ${opptyTransferCount} 所 / 冲刺候选 ${opptyNearCount} 所；表格行数 ${stats.totalRows} 行。`;
+        setText(elements.matchStats, `机会探索结果（当前筛选范围内）：转系候选 ${opptyTransferCount} 所 / 冲刺候选 ${opptyNearCount} 所；表格行数 ${stats.totalRows} 行。`);
     } else if (opptyEnabled && !opptyActive) {
         const why = opptyInfo.reason ? `（${opptyInfo.reason}）` : '';
-        elements.matchStats.textContent = `机会探索已开启但未生效${why}；当前仍显示普通筛选结果。`;
+        setText(elements.matchStats, `机会探索已开启但未生效${why}；当前仍显示普通筛选结果。`);
     } else if (!base.scoreActive) {
-        elements.matchStats.textContent = `已提取学校: ${groups.length} 所；表格行数（含分专业）: ${stats.totalRows} 行。填写成绩后可筛选可报学校。`;
+        setText(elements.matchStats, `已提取学校: ${groups.length} 所；表格行数（含分专业）: ${stats.totalRows} 行。填写成绩后可筛选可报学校。`);
     } else {
-        elements.matchStats.textContent = `匹配结果（当前筛选范围内）：可报 ${stats.statPass} 行 / 需核对 ${stats.statUnknown} 行 / 不符合 ${stats.statFail} 行。`;
+        setText(elements.matchStats, `匹配结果（当前筛选范围内）：可报 ${stats.statPass} 行 / 需核对 ${stats.statUnknown} 行 / 不符合 ${stats.statFail} 行。`);
     }
 
     if (groups.length === 0 || stats.totalRows === 0) {
-        elements.tableBody.innerHTML = '<tr><td colspan="12" class="px-4 py-8 text-center text-gray-500">无匹配结果</td></tr>';
+        setHtml(elements.tableBody, '<tr><td colspan="12" class="px-4 py-8 text-center text-gray-500">无匹配结果</td></tr>');
         if (elements.cardsWrap) {
-            elements.cardsWrap.innerHTML = '<div class="px-4 py-8 text-center text-gray-500">无匹配结果</div>';
+            setHtml(elements.cardsWrap, '<div class="px-4 py-8 text-center text-gray-500">无匹配结果</div>');
         }
         return;
     }
@@ -2343,12 +2477,12 @@ function render() {
     }
 
     if (renderTable) {
-        elements.tableBody.innerHTML = html;
+        setHtml(elements.tableBody, html);
     } else {
-        elements.tableBody.innerHTML = '';
+        setHtml(elements.tableBody, '');
     }
     if (elements.cardsWrap) {
-        elements.cardsWrap.innerHTML = renderCards ? cardsHtml : '';
+        setHtml(elements.cardsWrap, renderCards ? cardsHtml : '');
     }
 }
 
@@ -2394,8 +2528,8 @@ function openModal(rowKey) {
         ? `<div class="mt-4"><h3 class="font-medium mb-2">与当前成绩差距</h3><div class="text-sm text-gray-700">${escapeHtml(gapInfo)}</div></div>`
         : '';
 
-    elements.modalTitle.textContent = title;
-    elements.modalSubtitle.textContent = [g.area, tier, tw, matchText, processedAt].filter(Boolean).join(' · ');
+    setText(elements.modalTitle, title);
+    setText(elements.modalSubtitle, [g.area, tier, tw, matchText, processedAt].filter(Boolean).join(' · '));
 
     const reqRow = SUBJECTS.map(({ key, label }) => {
         const v = row.reqs[key];
@@ -2463,7 +2597,7 @@ function openModal(rowKey) {
         image_links: images,
     };
 
-    elements.modalContent.innerHTML = `
+    setHtml(elements.modalContent, `
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="text-sm">${sourceLink}</div>
             <div class="text-sm text-gray-600">截止日期: ${escapeHtml(g.extraction.application_deadline || '-')} · 信心度: ${escapeHtml(g.extraction.confidence || '-')}</div>
@@ -2510,14 +2644,14 @@ function openModal(rowKey) {
             <summary class="cursor-pointer text-sm text-gray-700">查看原始JSON</summary>
             <pre class="text-xs bg-gray-50 p-3 border rounded overflow-x-auto mt-2">${escapeHtml(JSON.stringify(rawJson, null, 2))}</pre>
         </details>
-    `;
+    `);
 
     elements.modal.classList.remove('hidden');
 }
 
 function closeModal() {
     elements.modal.classList.add('hidden');
-    elements.modalContent.innerHTML = '';
+    setHtml(elements.modalContent, '');
 }
 
 // Events
@@ -2800,8 +2934,44 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('resize', scheduleRender);
 
+function initSecretStarEntry() {
+    let count = 0;
+    let lastTs = 0;
+
+    const isTypingTarget = (t) => {
+        if (!t) return false;
+        const tag = String(t.tagName || '').toUpperCase();
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+        if (t.isContentEditable) return true;
+        return false;
+    };
+
+    window.addEventListener('keydown', (e) => {
+        if (!e) return;
+        if (e.repeat) return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (isTypingTarget(e.target)) return;
+
+        const key = String(e.key || '').toLowerCase();
+        if (key !== 'f') return;
+
+        const now = Date.now();
+        if (now - lastTs > 1200) count = 0;
+        lastTs = now;
+        count += 1;
+
+        if (count >= 3) {
+            count = 0;
+            window.location.href = '/star';
+        }
+    });
+}
+
 // Init
 (async function init() {
+    initLangSwitch();
+    applyLangToStaticDom();
+    initSecretStarEntry();
     console.log(`[CollegeFinder] summary UI ${UI_VERSION} initializing...`);
     for (const el of Object.values(elements.scoreSelects)) {
         fillStandardOptions(el);
